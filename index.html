@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SIPENDIK - Sistem Informasi Pendataan Peserta Didik">
+<title>SIPENDIK | Sistem Informasi Pendataan Peserta Didik</title>
+
+<style>
+:root{
+    --primary:#315bdc;
+    --primary-dark:#2447b8;
+    --indigo:#4f46e5;
+    --navy:#172554;
+    --text:#334155;
+    --muted:#64748b;
+    --bg:#f6f8fc;
+    --white:#ffffff;
+    --line:#e2e8f0;
+    --soft:#eef4ff;
+    --success:#16a34a;
+    --shadow:0 18px 50px rgba(30,64,175,.10);
+    --radius:24px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{
+    scroll-behavior:smooth;
+    scroll-padding-top:90px;
+}
+
+body{
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.6;
+}
+
+a{text-decoration:none;color:inherit}
+button,input{font:inherit}
+
+.container{
+    width:min(1180px,calc(100% - 40px));
+    margin:auto;
+}
+
+/* ================= NAVBAR ================= */
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(255,255,255,.94);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(226,232,240,.85);
+    box-shadow:0 5px 25px rgba(15,23,42,.05);
+}
+
+.nav-inner{
+    min-height:76px;
+    display:flex;
+    align-items:center;
+    gap:24px;
+}
+
+/* Logo */
+.logo{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    flex-shrink:0;
+}
+
+.logo-icon{
+    width:48px;
+    height:48px;
+    flex:none;
+}
+
+.logo-text{
+    display:flex;
+    flex-direction:column;
+    line-height:1.05;
+}
+
+.logo-name{
+    font-size:20px;
+    font-weight:900;
+    letter-spacing:-.7px;
+    color:var(--navy);
+}
+
+.logo-subtitle{
+    margin-top:4px;
+    font-size:8.5px;
+    font-weight:650;
+    color:var(--muted);
+    white-space:nowrap;
+}
+
+.nav-menu{
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:4px;
+}
+
+.nav-link{
+    position:relative;
+    padding:10px 13px;
+    border-radius:10px;
+    color:#475569;
+    font-size:13px;
+    font-weight:700;
+    white-space:nowrap;
+    transition:.2s ease;
+}
+
+.nav-link:hover{
+    color:var(--primary);
+    background:#f1f5ff;
+}
+
+.nav-link.active{
+    color:var(--primary);
+}
+
+.nav-link.active::after{
+    content:"";
+    position:absolute;
+    left:13px;
+    right:13px;
+    bottom:4px;
+    height:2px;
+    border-radius:10px;
+    background:linear-gradient(90deg,var(--primary),var(--indigo));
+}
+
+.nav-admin{
+    margin-left:8px;
+    padding:10px 16px;
+    border-radius:11px;
+    background:linear-gradient(135deg,var(--primary),var(--indigo));
+    color:#fff;
+    font-size:12px;
+    font-weight:800;
+    white-space:nowrap;
+    box-shadow:0 8px 20px rgba(49,91,220,.22);
+    transition:.2s ease;
+}
+
+.nav-admin:hover{
+    transform:translateY(-1px);
+    box-shadow:0 12px 25px rgba(49,91,220,.28);
+}
+
+.menu-toggle{
+    display:none;
+    width:42px;
+    height:42px;
+    border:1px solid var(--line);
+    border-radius:11px;
+    background:#fff;
+    cursor:pointer;
+}
+
+.menu-toggle span{
+    display:block;
+    width:20px;
+    height:2px;
+    margin:4px auto;
+    background:var(--navy);
+    border-radius:5px;
+}
+
+/* ================= HERO ================= */
+.hero{
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 90% 10%,rgba(79,70,229,.11),transparent 28%),
+        radial-gradient(circle at 8% 40%,rgba(49,91,220,.08),transparent 25%),
+        linear-gradient(180deg,#f8fbff 0%,#eef4ff 100%);
+    padding:78px 0 74px;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    width:520px;
+    height:520px;
+    right:-270px;
+    top:-240px;
+    border-radius:50%;
+    background:rgba(49,91,220,.055);
+}
+
+.hero-grid{
+    position:relative;
+    display:grid;
+    grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);
+    gap:60px;
+    align-items:center;
+}
+
+.hero-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 13px;
+    border:1px solid #cbdcff;
+    border-radius:999px;
+    background:#edf4ff;
+    color:#3154b7;
+    font-size:11px;
+    font-weight:800;
+    margin-bottom:20px;
+}
+
+.hero-badge-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--primary);
+    box-shadow:0 0 0 5px rgba(49,91,220,.10);
+}
+
+.hero h1{
+    max-width:690px;
+    color:var(--navy);
+    font-size:clamp(38px,5vw,65px);
+    line-height:1.05;
+    letter-spacing:-2.8px;
+    font-weight:900;
+}
+
+.hero h1 span{
+    color:var(--primary);
+}
+
+.hero-description{
+    max-width:630px;
+    margin-top:22px;
+    color:#64748b;
+    font-size:17px;
+}
+
+.hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:30px;
+}
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    min-height:49px;
+    padding:0 21px;
+    border-radius:12px;
+    font-size:13px;
+    font-weight:800;
+    transition:.22s ease;
+}
+
+.btn-primary{
+    color:#fff;
+    background:linear-gradient(135deg,var(--primary),var(--indigo));
+    box-shadow:0 12px 25px rgba(49,91,220,.24);
+}
+
+.btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 16px 30px rgba(49,91,220,.30);
+}
+
+.btn-secondary{
+    color:var(--navy);
+    background:#fff;
+    border:1px solid #d8e1ef;
+}
+
+.btn-secondary:hover{
+    border-color:#b9c9e7;
+    background:#f8fbff;
+}
+
+.hero-note{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:17px;
+    color:#7a8799;
+    font-size:11px;
+}
+
+.hero-note svg{color:var(--success)}
+
+/* Hero visual - no external image */
+.hero-visual{
+    position:relative;
+    min-height:410px;
+}
+
+.visual-orbit{
+    position:absolute;
+    width:390px;
+    height:390px;
+    right:10px;
+    top:0;
+    border-radius:50%;
+    background:rgba(214,226,255,.48);
+    border:1px solid rgba(145,169,235,.24);
+}
+
+.visual-orbit::after{
+    content:"";
+    position:absolute;
+    inset:34px;
+    border:1px solid rgba(93,126,220,.22);
+    border-radius:50%;
+}
+
+.visual-panel{
+    position:absolute;
+    right:8px;
+    top:70px;
+    width:min(360px,90%);
+    padding:27px;
+    border-radius:24px;
+    background:rgba(255,255,255,.94);
+    border:1px solid rgba(213,222,239,.9);
+    box-shadow:var(--shadow);
+}
+
+.visual-panel-title{
+    color:#73839d;
+    font-size:11px;
+    font-weight:800;
+}
+
+.visual-panel h2{
+    margin-top:7px;
+    color:var(--navy);
+    font-size:37px;
+    line-height:1;
+}
+
+.visual-progress{
+    margin-top:18px;
+    height:9px;
+    border-radius:99px;
+    background:#e7edf7;
+    overflow:hidden;
+}
+
+.visual-progress span{
+    display:block;
+    width:0%;
+    height:100%;
+    border-radius:inherit;
+    background:linear-gradient(90deg,var(--primary),var(--indigo));
+    transition:width .4s ease;
+}
+
+.visual-stats{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:18px;
+}
+
+.visual-stat{
+    padding:14px;
+    border-radius:14px;
+    background:#f7f9fd;
+    border:1px solid #edf1f7;
+}
+
+.visual-stat small{
+    display:block;
+    color:#7b8798;
+    font-size:10px;
+}
+
+.visual-stat strong{
+    display:block;
+    margin-top:3px;
+    color:var(--navy);
+    font-size:20px;
+}
+
+/* Decorative dashboard cards */
+.float-card{
+    position:absolute;
+    padding:15px 17px;
+    border-radius:16px;
+    background:#fff;
+    border:1px solid #e3e9f3;
+    box-shadow:0 15px 35px rgba(30,64,175,.11);
+}
+
+.float-card.one{
+    left:0;
+    bottom:46px;
+    width:175px;
+}
+
+.float-card.two{
+    right:-4px;
+    bottom:0;
+    width:185px;
+}
+
+.float-label{
+    color:#7b8798;
+    font-size:9px;
+    font-weight:700;
+}
+
+.float-value{
+    margin-top:4px;
+    color:var(--navy);
+    font-size:20px;
+    font-weight:900;
+}
+
+.float-icon{
+    float:right;
+    width:31px;
+    height:31px;
+    display:grid;
+    place-items:center;
+    border-radius:9px;
+    color:var(--primary);
+    background:#edf3ff;
+}
+
+/* ================= SECTION ================= */
+.section{
+    padding:84px 0;
+}
+
+.section-light{background:#fff}
+
+.section-head{
+    max-width:700px;
+    margin:0 auto 42px;
+    text-align:center;
+}
+
+.section-kicker{
+    color:var(--primary);
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+}
+
+.section-title{
+    margin-top:8px;
+    color:var(--navy);
+    font-size:clamp(28px,3.5vw,42px);
+    line-height:1.15;
+    letter-spacing:-1.3px;
+    font-weight:900;
+}
+
+.section-desc{
+    margin-top:13px;
+    color:#718096;
+    font-size:14px;
+}
+
+/* ================= PROGRESS ================= */
+.progress-grid{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:22px;
+}
+
+.progress-card{
+    padding:30px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:22px;
+    box-shadow:0 10px 35px rgba(15,23,42,.045);
+}
+
+.progress-card h3{
+    color:var(--navy);
+    font-size:18px;
+}
+
+.progress-card p{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.big-progress{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:20px;
+    margin-top:27px;
+}
+
+.big-percent{
+    color:var(--primary);
+    font-size:48px;
+    line-height:1;
+    font-weight:900;
+    letter-spacing:-2px;
+}
+
+.target-label{
+    color:#7c8799;
+    font-size:11px;
+    text-align:right;
+}
+
+.target-value{
+    display:block;
+    margin-top:2px;
+    color:var(--navy);
+    font-size:22px;
+    font-weight:900;
+}
+
+.main-progress{
+    margin-top:18px;
+    height:13px;
+    border-radius:99px;
+    background:#e9eef7;
+    overflow:hidden;
+}
+
+.main-progress span{
+    display:block;
+    width:0%;
+    height:100%;
+    border-radius:inherit;
+    background:linear-gradient(90deg,var(--primary),var(--indigo));
+    transition:width .45s ease;
+}
+
+.stat-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:22px;
+}
+
+.stat-box{
+    padding:17px;
+    border-radius:15px;
+    background:#f8fafc;
+    border:1px solid #edf1f6;
+}
+
+.stat-box .label{
+    color:#7a8799;
+    font-size:10px;
+    font-weight:700;
+}
+
+.stat-box .value{
+    margin-top:4px;
+    color:var(--navy);
+    font-size:23px;
+    font-weight:900;
+}
+
+.info-card{
+    padding:30px;
+    border-radius:22px;
+    background:linear-gradient(145deg,#edf4ff,#f5f3ff);
+    border:1px solid #dbe5fb;
+}
+
+.info-icon{
+    width:45px;
+    height:45px;
+    display:grid;
+    place-items:center;
+    border-radius:13px;
+    color:#fff;
+    background:linear-gradient(135deg,var(--primary),var(--indigo));
+}
+
+.info-card h3{
+    margin-top:18px;
+    color:var(--navy);
+    font-size:19px;
+}
+
+.info-card p{
+    margin-top:8px;
+    color:#64748b;
+    font-size:13px;
+}
+
+.info-list{
+    margin-top:20px;
+    display:grid;
+    gap:12px;
+}
+
+.info-list div{
+    display:flex;
+    align-items:flex-start;
+    gap:9px;
+    color:#53647b;
+    font-size:12px;
+}
+
+.info-list svg{
+    flex:none;
+    margin-top:2px;
+    color:var(--primary);
+}
+
+/* ================= PANDUAN ================= */
+.guide-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:17px;
+}
+
+.guide-card{
+    position:relative;
+    padding:25px 21px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    background:#fff;
+    box-shadow:0 8px 28px rgba(15,23,42,.035);
+    transition:.22s ease;
+}
+
+.guide-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 16px 35px rgba(30,64,175,.09);
+}
+
+.guide-number{
+    position:absolute;
+    top:17px;
+    right:18px;
+    color:#d6def0;
+    font-size:28px;
+    font-weight:900;
+}
+
+.guide-icon{
+    width:45px;
+    height:45px;
+    display:grid;
+    place-items:center;
+    border-radius:13px;
+    color:var(--primary);
+    background:#edf3ff;
+}
+
+.guide-card h3{
+    margin-top:18px;
+    color:var(--navy);
+    font-size:15px;
+}
+
+.guide-card p{
+    margin-top:7px;
+    color:#718096;
+    font-size:11.5px;
+}
+
+/* ================= CTA ================= */
+.cta{
+    padding:0 0 84px;
+}
+
+.cta-box{
+    position:relative;
+    overflow:hidden;
+    padding:52px 55px;
+    border-radius:28px;
+    background:linear-gradient(135deg,#244dcc,#4f46e5);
+    color:#fff;
+    box-shadow:0 20px 45px rgba(49,91,220,.22);
+}
+
+.cta-box::after{
+    content:"";
+    position:absolute;
+    width:330px;
+    height:330px;
+    right:-130px;
+    top:-170px;
+    border-radius:50%;
+    border:55px solid rgba(255,255,255,.07);
+}
+
+.cta-box h2{
+    position:relative;
+    z-index:1;
+    max-width:650px;
+    font-size:clamp(27px,4vw,39px);
+    line-height:1.12;
+    letter-spacing:-1.2px;
+}
+
+.cta-box p{
+    position:relative;
+    z-index:1;
+    max-width:650px;
+    margin-top:11px;
+    color:rgba(255,255,255,.78);
+    font-size:13px;
+}
+
+.cta-box .btn{
+    position:relative;
+    z-index:2;
+    margin-top:24px;
+    color:var(--primary);
+    background:#fff;
+}
+
+/* ================= FOOTER ================= */
+footer{
+    padding:32px 0;
+    background:#111d3b;
+    color:#fff;
+}
+
+.footer-inner{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:25px;
+}
+
+.footer-brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.footer-brand .logo-icon{
+    width:44px;
+    height:44px;
+}
+
+.footer-name{
+    font-size:16px;
+    font-weight:900;
+}
+
+.footer-desc{
+    margin-top:3px;
+    color:#aab6cf;
+    font-size:10px;
+}
+
+.footer-copy{
+    color:#8e9bb6;
+    font-size:10px;
+    text-align:right;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:1100px){
+    .nav-menu{gap:0}
+    .nav-link{padding:9px 9px;font-size:11px}
+    .nav-admin{padding:9px 12px;font-size:11px}
+    .hero-grid{gap:35px}
+}
+
+@media(max-width:900px){
+    .nav-inner{min-height:70px}
+    .menu-toggle{display:block;margin-left:auto}
+    .nav-menu{
+        position:absolute;
+        top:70px;
+        left:0;
+        right:0;
+        display:none;
+        padding:12px 20px 18px;
+        flex-direction:column;
+        align-items:stretch;
+        background:#fff;
+        border-bottom:1px solid var(--line);
+        box-shadow:0 15px 25px rgba(15,23,42,.07);
+    }
+    .nav-menu.open{display:flex}
+    .nav-link{
+        padding:12px 13px;
+        font-size:13px;
+    }
+    .nav-link.active::after{display:none}
+    .nav-admin{
+        margin:4px 0 0;
+        text-align:center;
+        padding:12px;
+    }
+
+    .hero{padding:60px 0}
+    .hero-grid{
+        grid-template-columns:1fr;
+    }
+    .hero-visual{
+        min-height:330px;
+        max-width:560px;
+        width:100%;
+        margin:auto;
+    }
+    .visual-orbit{
+        width:330px;
+        height:330px;
+        right:50%;
+        transform:translateX(50%);
+    }
+    .visual-panel{
+        right:50%;
+        transform:translateX(50%);
+        top:55px;
+    }
+    .float-card.one{left:5px}
+    .float-card.two{right:5px}
+
+    .progress-grid{grid-template-columns:1fr}
+    .guide-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:600px){
+    .container{width:min(100% - 28px,1180px)}
+
+    .logo-subtitle{display:none}
+    .logo-name{font-size:18px}
+    .logo-icon{width:44px;height:44px}
+
+    .hero{padding:45px 0 55px}
+    .hero h1{
+        font-size:39px;
+        letter-spacing:-1.8px;
+    }
+    .hero-description{font-size:14px}
+    .hero-actions{flex-direction:column}
+    .hero-actions .btn{width:100%}
+
+    .hero-visual{
+        min-height:300px;
+        transform:scale(.94);
+        transform-origin:center;
+        margin-top:-5px;
+    }
+    .visual-orbit{width:285px;height:285px}
+    .visual-panel{
+        width:300px;
+        padding:22px;
+        top:46px;
+    }
+    .visual-panel h2{font-size:32px}
+    .float-card.one{left:0;bottom:20px;width:145px}
+    .float-card.two{right:0;bottom:-2px;width:150px}
+
+    .section{padding:62px 0}
+    .section-head{margin-bottom:30px}
+    .section-title{font-size:29px}
+    .progress-card,.info-card{padding:23px}
+    .stat-grid{grid-template-columns:1fr}
+    .guide-grid{grid-template-columns:1fr}
+    .guide-card{padding:23px}
+
+    .cta{padding-bottom:62px}
+    .cta-box{padding:34px 25px;border-radius:22px}
+
+    .footer-inner{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+    .footer-copy{text-align:left}
+}
+
+@media(max-width:380px){
+    .hero h1{font-size:34px}
+    .hero-visual{transform:scale(.85);margin-top:-20px;margin-bottom:-20px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+    <div class="container nav-inner">
+
+        <a href="index.html" class="logo" aria-label="SIPENDIK Beranda">
+            <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                    <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#315BDB"/>
+                        <stop offset="55%" stop-color="#3F5FE0"/>
+                        <stop offset="100%" stop-color="#4F46E5"/>
+                    </linearGradient>
+                </defs>
+                <rect x="5" y="5" width="90" height="90" rx="27" fill="url(#logoGradient)"/>
+                <circle cx="76" cy="24" r="17" fill="white" opacity=".08"/>
+                <circle cx="23" cy="78" r="13" fill="white" opacity=".06"/>
+                <path d="M25 28 C34 18,48 15,60 18" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" opacity=".16"/>
+                <text x="50" y="59" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="900" letter-spacing="-2" fill="white">SIP</text>
+                <rect x="28" y="68" width="44" height="4" rx="2" fill="white" opacity=".9"/>
+            </svg>
+
+            <span class="logo-text">
+                <span class="logo-name">SIPENDIK</span>
+                <span class="logo-subtitle">Sistem Informasi Pendataan Peserta Didik</span>
+            </span>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Buka menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav class="nav-menu" id="navMenu">
+            <a class="nav-link active" href="#beranda">Beranda</a>
+            <a class="nav-link" href="#progress">Progress Fitur</a>
+            <a class="nav-link" href="#panduan">Panduan</a>
+            <a class="nav-link" href="formulir.html">Isi Data Peserta Didik</a>
+            <a class="nav-link" href="keterlambatan.html">Data Keterlambatan</a>
+            <a class="nav-admin" href="admin.html">Login Admin</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+
+<!-- ================= HERO / BERANDA ================= -->
+<section class="hero" id="beranda">
+    <div class="container hero-grid">
+
+        <div>
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                Sistem Informasi Pendataan Peserta Didik
+            </div>
+
+            <h1>
+                Lengkapi Data Siswa <span>Secara Online.</span>
+            </h1>
+
+            <p class="hero-description">
+                SIPENDIK membantu proses pengumpulan data peserta didik
+                menjadi lebih teratur, mudah, cepat, dan efisien.
+            </p>
+
+            <div class="hero-actions">
+                <a href="formulir.html" class="btn btn-primary">
+                    Isi Data Peserta Didik
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M5 12h14"/>
+                        <path d="m13 6 6 6-6 6"/>
+                    </svg>
+                </a>
+
+                <a href="#panduan" class="btn btn-secondary">
+                    Lihat Panduan
+                </a>
+            </div>
+
+            <div class="hero-note">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M20 6 9 17l-5-5"/>
+                </svg>
+                Isi data sesuai dokumen resmi yang dimiliki.
+            </div>
+        </div>
+
+        <!-- Visual dashboard, tanpa gambar eksternal -->
+        <div class="hero-visual">
+
+            <div class="visual-orbit"></div>
+
+            <div class="visual-panel">
+                <div class="visual-panel-title">Progress Pendataan</div>
+                <h2 id="heroPercent">0%</h2>
+
+                <div class="visual-progress">
+                    <span id="heroProgressBar"></span>
+                </div>
+
+                <div class="visual-stats">
+                    <div class="visual-stat">
+                        <small>Sudah Mengisi</small>
+                        <strong id="heroSudah">0</strong>
+                    </div>
+                    <div class="visual-stat">
+                        <small>Belum Mengisi</small>
+                        <strong id="heroBelum">0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="float-card one">
+                <span class="float-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                    </svg>
+                </span>
+                <div class="float-label">Target Siswa</div>
+                <div class="float-value" id="heroTarget">0</div>
+            </div>
+
+            <div class="float-card two">
+                <span class="float-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 6 9 17l-5-5"/>
+                    </svg>
+                </span>
+                <div class="float-label">Status Sistem</div>
+                <div class="float-value" style="font-size:15px;">AKTIF</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= PROGRESS ================= -->
+<section class="section section-light" id="progress">
+    <div class="container">
+
+        <div class="section-head">
+            <div class="section-kicker">Progress Fitur</div>
+            <h2 class="section-title">Pantau Progress Pendataan</h2>
+            <p class="section-desc">
+                Informasi jumlah peserta didik yang sudah dan belum melengkapi formulir.
+            </p>
+        </div>
+
+        <div class="progress-grid">
+
+            <div class="progress-card">
+                <h3>Progress Pendataan Siswa</h3>
+                <p>Data diperbarui otomatis berdasarkan pengisian formulir.</p>
+
+                <div class="big-progress">
+                    <div class="big-percent" id="mainPercent">0%</div>
+                    <div class="target-label">
+                        Target Siswa
+                        <span class="target-value" id="mainTarget">0</span>
+                    </div>
+                </div>
+
+                <div class="main-progress">
+                    <span id="mainProgressBar"></span>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-box">
+                        <div class="label">Target Siswa</div>
+                        <div class="value" id="statTarget">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="label">Sudah Mengisi</div>
+                        <div class="value" id="statSudah">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="label">Belum Mengisi</div>
+                        <div class="value" id="statBelum">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">
+                    <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z"/>
+                        <path d="M12 16v-4"/>
+                        <path d="M12 8h.01"/>
+                    </svg>
+                </div>
+
+                <h3>Bagaimana Progress Dihitung?</h3>
+                <p>
+                    Progress menunjukkan perbandingan jumlah peserta didik yang
+                    telah mengirim formulir dengan target siswa yang ditetapkan admin.
+                </p>
+
+                <div class="info-list">
+                    <div>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M20 6 9 17l-5-5"/>
+                        </svg>
+                        Setiap formulir yang berhasil dikirim menambah jumlah pengisian.
+                    </div>
+                    <div>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M20 6 9 17l-5-5"/>
+                        </svg>
+                        Target siswa dikelola melalui Dashboard Admin.
+                    </div>
+                    <div>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M20 6 9 17l-5-5"/>
+                        </svg>
+                        Data progress diperbarui otomatis saat halaman dibuka.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= PANDUAN ================= -->
+<section class="section" id="panduan">
+    <div class="container">
+
+        <div class="section-head">
+            <div class="section-kicker">Panduan</div>
+            <h2 class="section-title">Cara Pengisian Data</h2>
+            <p class="section-desc">
+                Ikuti langkah berikut agar proses pendataan berjalan dengan mudah.
+            </p>
+        </div>
+
+        <div class="guide-grid">
+
+            <div class="guide-card">
+                <div class="guide-number">01</div>
+                <div class="guide-icon">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="7"/>
+                        <path d="m20 20-4-4"/>
+                    </svg>
+                </div>
+                <h3>Cari Nama Siswa</h3>
+                <p>
+                    Buka formulir dan cari nama berdasarkan Master Data Siswa.
+                    Nama, NISN, dan kelas akan terisi otomatis.
+                </p>
+            </div>
+
+            <div class="guide-card">
+                <div class="guide-number">02</div>
+                <div class="guide-icon">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 20h9"/>
+                        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/>
+                    </svg>
+                </div>
+                <h3>Lengkapi Data</h3>
+                <p>
+                    Isi seluruh data identitas, alamat, keluarga, periodik,
+                    dan informasi lain sesuai dokumen resmi.
+                </p>
+            </div>
+
+            <div class="guide-card">
+                <div class="guide-number">03</div>
+                <div class="guide-icon">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/>
+                        <path d="M14 2v6h6"/>
+                        <path d="m8 13 2.5 2.5L16 10"/>
+                    </svg>
+                </div>
+                <h3>Unggah Dokumen</h3>
+                <p>
+                    Siapkan KK, Akta Kelahiran, dan Ijazah SMP dalam format
+                    PDF dengan ukuran maksimal 2 MB per dokumen.
+                </p>
+            </div>
+
+            <div class="guide-card">
+                <div class="guide-number">04</div>
+                <div class="guide-icon">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 6 9 17l-5-5"/>
+                    </svg>
+                </div>
+                <h3>Periksa & Kirim</h3>
+                <p>
+                    Periksa kembali seluruh data sebelum menekan tombol
+                    kirim agar informasi yang disampaikan sudah benar.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="cta">
+    <div class="container">
+        <div class="cta-box">
+            <h2>Siap Melengkapi Data Peserta Didik?</h2>
+            <p>
+                Gunakan tombol berikut untuk mulai mengisi data peserta didik
+                peserta didik secara online.
+            </p>
+
+            <a href="formulir.html" class="btn">
+                Mulai Isi Data Peserta Didik
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M5 12h14"/>
+                    <path d="m13 6 6 6-6 6"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+    <div class="container footer-inner">
+
+        <div class="footer-brand">
+            <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                    <linearGradient id="footerGradient" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#315BDB"/>
+                        <stop offset="100%" stop-color="#4F46E5"/>
+                    </linearGradient>
+                </defs>
+                <rect x="5" y="5" width="90" height="90" rx="27" fill="url(#footerGradient)"/>
+                <text x="50" y="59" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="900" letter-spacing="-2" fill="white">SIP</text>
+                <rect x="28" y="68" width="44" height="4" rx="2" fill="white" opacity=".9"/>
+            </svg>
+
+            <div>
+                <div class="footer-name">SIPENDIK</div>
+                <div class="footer-desc">Sistem Informasi Pendataan Peserta Didik</div>
+            </div>
+        </div>
+
+        <div class="footer-copy">
+            Dikembangkan oleh Indra Adiguna, ST.<br>
+            © 2026 SIPENDIK. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<script>
+/* =========================================================
+   SIPENDIK - DATA PROGRESS
+   Menggunakan localStorage yang sama dengan formulir/admin.
+   ========================================================= */
+
+const TARGET_KEY = "formonline_target_siswa";
+const STUDENTS_KEY = "formonline_students";
+
+function getTarget(){
+    const value = parseInt(localStorage.getItem(TARGET_KEY) || "0", 10);
+    return Number.isFinite(value) && value > 0 ? value : 0;
+}
+
+function getStudents(){
+    try{
+        const data = JSON.parse(localStorage.getItem(STUDENTS_KEY) || "[]");
+        return Array.isArray(data) ? data : [];
+    }catch(error){
+        return [];
+    }
+}
+
+function updateProgress(){
+    const target = getTarget();
+    const students = getStudents();
+
+    /*
+      Menggunakan jumlah submission sebagai "Sudah Mengisi".
+      Jika ada ID yang sama, hitung satu kali saja.
+    */
+    const unique = new Map();
+
+    students.forEach(student => {
+        const key = String(
+            student.id ||
+            student.nisn ||
+            student.nama ||
+            Math.random()
+        ).trim();
+
+        if(!unique.has(key)){
+            unique.set(key, student);
+        }
+    });
+
+    const sudah = unique.size;
+    const belum = Math.max(target - sudah, 0);
+    const percent = target > 0
+        ? Math.min(100, Math.round((sudah / target) * 100))
+        : 0;
+
+    // Hero
+    document.getElementById("heroTarget").textContent = target.toLocaleString("id-ID");
+    document.getElementById("heroSudah").textContent = sudah.toLocaleString("id-ID");
+    document.getElementById("heroBelum").textContent = belum.toLocaleString("id-ID");
+    document.getElementById("heroPercent").textContent = percent + "%";
+    document.getElementById("heroProgressBar").style.width = percent + "%";
+
+    // Progress section
+    document.getElementById("mainPercent").textContent = percent + "%";
+    document.getElementById("mainTarget").textContent = target.toLocaleString("id-ID");
+    document.getElementById("mainProgressBar").style.width = percent + "%";
+
+    document.getElementById("statTarget").textContent = target.toLocaleString("id-ID");
+    document.getElementById("statSudah").textContent = sudah.toLocaleString("id-ID");
+    document.getElementById("statBelum").textContent = belum.toLocaleString("id-ID");
+}
+
+/* ================= MOBILE MENU ================= */
+const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
+
+menuToggle.addEventListener("click", function(){
+    const open = navMenu.classList.toggle("open");
+    menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+});
+
+document.querySelectorAll(".nav-link, .nav-admin").forEach(link => {
+    link.addEventListener("click", () => {
+        navMenu.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded","false");
+    });
+});
+
+/* ================= ACTIVE NAV ================= */
+const navLinks = document.querySelectorAll(".nav-link");
+
+function setActiveNav(){
+    const y = window.scrollY + 130;
+
+    let current = "beranda";
+
+    if(document.getElementById("panduan").offsetTop <= y){
+        current = "panduan";
+    }
+
+    if(document.getElementById("progress").offsetTop <= y){
+        current = "progress";
+    }
+
+    navLinks.forEach(link => {
+        link.classList.remove("active");
+
+        const href = link.getAttribute("href");
+
+        if(
+            (current === "beranda" && href === "#beranda") ||
+            (current === "progress" && href === "#progress") ||
+            (current === "panduan" && href === "#panduan")
+        ){
+            link.classList.add("active");
+        }
+    });
+}
+
+window.addEventListener("scroll", setActiveNav, {passive:true});
+
+/* ================= INITIALIZE ================= */
+updateProgress();
+setActiveNav();
+
+/*
+  Jika admin/formulir mengubah localStorage pada tab lain,
+  homepage akan memperbarui progress ketika kembali aktif.
+*/
+window.addEventListener("storage", function(event){
+    if(event.key === TARGET_KEY || event.key === STUDENTS_KEY){
+        updateProgress();
+    }
+});
+
+document.addEventListener("visibilitychange", function(){
+    if(!document.hidden){
+        updateProgress();
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SIPENDIK - Data Keterlambatan Peserta Didik">
+<title>Data Keterlambatan | SIPENDIK</title>
+
+<style>
+:root{
+    --primary:#315bdc;
+    --primary-dark:#2447b8;
+    --indigo:#4f46e5;
+    --navy:#172554;
+    --text:#334155;
+    --muted:#64748b;
+    --bg:#f5f7fb;
+    --white:#fff;
+    --line:#dce4ef;
+    --soft:#eef4ff;
+    --success:#16a34a;
+    --danger:#dc2626;
+    --warning:#d97706;
+    --shadow:0 18px 45px rgba(30,64,175,.09);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{
+    scroll-behavior:smooth;
+    scroll-padding-top:90px;
+}
+
+body{
+    min-height:100vh;
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--text);
+    background:
+        radial-gradient(circle at 90% 5%,rgba(79,70,229,.07),transparent 28%),
+        linear-gradient(180deg,#f8fbff 0,#f5f7fb 42%,#f5f7fb 100%);
+    line-height:1.6;
+}
+
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font:inherit}
+
+.container{
+    width:min(1120px,calc(100% - 36px));
+    margin:auto;
+}
+
+/* ================= NAVBAR ================= */
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:linear-gradient(135deg,#315bdc,#3f50d7 55%,#4f46e5);
+    box-shadow:0 8px 28px rgba(30,64,175,.18);
+}
+
+.nav-inner{
+    min-height:72px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.logo{
+    display:inline-flex;
+    align-items:center;
+    gap:11px;
+    color:#fff;
+}
+
+.logo-icon{
+    width:46px;
+    height:46px;
+    flex:none;
+}
+
+.logo-text{
+    display:flex;
+    flex-direction:column;
+    line-height:1.05;
+}
+
+.logo-name{
+    font-size:19px;
+    font-weight:900;
+    letter-spacing:-.7px;
+}
+
+.logo-subtitle{
+    margin-top:4px;
+    color:rgba(255,255,255,.76);
+    font-size:8px;
+    font-weight:600;
+    white-space:nowrap;
+}
+
+.back-home-btn{
+    margin-left:auto;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    min-height:40px;
+    padding:0 15px;
+    border:1px solid rgba(255,255,255,.25);
+    border-radius:10px;
+    background:rgba(255,255,255,.10);
+    color:#fff;
+    font-size:12px;
+    font-weight:800;
+    transition:.2s ease;
+}
+
+.back-home-btn:hover{
+    background:#fff;
+    color:var(--primary);
+    transform:translateX(-2px);
+}
+
+/* ================= PAGE HEADER ================= */
+.page-header{
+    padding:55px 0 38px;
+    background:
+        radial-gradient(circle at 85% 10%,rgba(79,70,229,.11),transparent 25%),
+        linear-gradient(180deg,#f5f8ff 0,#edf3ff 100%);
+    border-bottom:1px solid #e1e8f3;
+}
+
+.breadcrumb{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:#738198;
+    font-size:11px;
+    font-weight:650;
+}
+
+.breadcrumb a{
+    color:var(--primary);
+}
+
+.page-kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    margin-top:18px;
+    padding:7px 11px;
+    border:1px solid #cbdcff;
+    border-radius:999px;
+    background:#edf4ff;
+    color:#3154b7;
+    font-size:10px;
+    font-weight:850;
+}
+
+.page-kicker span{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--primary);
+}
+
+.page-header h1{
+    margin-top:14px;
+    color:var(--navy);
+    font-size:clamp(30px,4vw,46px);
+    line-height:1.08;
+    letter-spacing:-1.8px;
+    font-weight:900;
+}
+
+.page-header p{
+    max-width:700px;
+    margin-top:11px;
+    color:#65748a;
+    font-size:14px;
+}
+
+/* ================= CONTENT ================= */
+.main{
+    padding:34px 0 70px;
+}
+
+.notice{
+    display:flex;
+    align-items:flex-start;
+    gap:13px;
+    margin-bottom:22px;
+    padding:18px 20px;
+    border:1px solid #cfe0ff;
+    border-left:4px solid var(--primary);
+    border-radius:15px;
+    background:#f2f7ff;
+    color:#435a7b;
+    font-size:12px;
+}
+
+.notice-icon{
+    width:30px;
+    height:30px;
+    display:grid;
+    place-items:center;
+    flex:none;
+    border-radius:9px;
+    color:var(--primary);
+    background:#e3edff;
+}
+
+.notice strong{
+    display:block;
+    margin-bottom:2px;
+    color:var(--navy);
+}
+
+/* ================= FORM CARD ================= */
+.form-card{
+    overflow:hidden;
+    border:1px solid #e0e7f1;
+    border-radius:23px;
+    background:#fff;
+    box-shadow:var(--shadow);
+}
+
+.form-head{
+    padding:24px 27px;
+    background:linear-gradient(135deg,#f0f5ff,#f6f4ff);
+    border-bottom:1px solid #e0e7f1;
+}
+
+.form-head-inner{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.section-number{
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    flex:none;
+    border-radius:12px;
+    color:#fff;
+    background:linear-gradient(135deg,var(--primary),var(--indigo));
+    font-size:13px;
+    font-weight:900;
+}
+
+.form-head h2{
+    color:var(--navy);
+    font-size:18px;
+}
+
+.form-head p{
+    margin-top:2px;
+    color:#758399;
+    font-size:11px;
+}
+
+.form-body{
+    padding:27px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px 16px;
+}
+
+.field{
+    min-width:0;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+label{
+    display:block;
+    margin-bottom:7px;
+    color:#20355c;
+    font-size:11px;
+    font-weight:800;
+}
+
+.required{color:#dc2626}
+
+input,select,textarea{
+    width:100%;
+    min-height:45px;
+    border:1px solid #d5deea;
+    border-radius:10px;
+    outline:none;
+    background:#fff;
+    color:#334155;
+    padding:10px 12px;
+    font-size:12px;
+    transition:.2s ease;
+}
+
+input:focus,select:focus,textarea:focus{
+    border-color:#6d8df0;
+    box-shadow:0 0 0 3px rgba(49,91,220,.09);
+}
+
+input[readonly]{
+    background:#f1f5f9;
+    color:#607087;
+    cursor:not-allowed;
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.helper{
+    margin-top:5px;
+    color:#8390a3;
+    font-size:10px;
+}
+
+.search-wrap{
+    position:relative;
+}
+
+.search-wrap input{
+    padding-left:38px;
+}
+
+.search-icon{
+    position:absolute;
+    left:13px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#6881bd;
+    pointer-events:none;
+}
+
+.search-results{
+    position:relative;
+    z-index:30;
+    display:none;
+    max-height:245px;
+    overflow:auto;
+    margin-top:7px;
+    border:1px solid #d8e1ef;
+    border-radius:12px;
+    background:#fff;
+    box-shadow:0 18px 38px rgba(15,23,42,.13);
+}
+
+.search-results.show{
+    display:block;
+}
+
+.student-option{
+    width:100%;
+    display:block;
+    padding:12px 14px;
+    border:0;
+    border-bottom:1px solid #edf1f6;
+    background:#fff;
+    text-align:left;
+    cursor:pointer;
+}
+
+.student-option:last-child{border-bottom:0}
+
+.student-option:hover{
+    background:#f4f7ff;
+}
+
+.student-option strong{
+    display:block;
+    color:var(--navy);
+    font-size:12px;
+}
+
+.student-option span{
+    display:block;
+    margin-top:2px;
+    color:#7b8799;
+    font-size:10px;
+}
+
+.no-result{
+    padding:18px;
+    color:#7b8799;
+    text-align:center;
+    font-size:11px;
+}
+
+.status-box{
+    min-height:45px;
+    display:flex;
+    align-items:center;
+    padding:10px 12px;
+    border:1px solid #d5deea;
+    border-radius:10px;
+    background:#f8fafc;
+    color:#64748b;
+    font-size:12px;
+    font-weight:800;
+}
+
+.status-box.late{
+    color:#b91c1c;
+    background:#fff1f2;
+    border-color:#fecdd3;
+}
+
+.status-box.ontime{
+    color:#15803d;
+    background:#f0fdf4;
+    border-color:#bbf7d0;
+}
+
+.file-note{
+    margin-top:5px;
+    color:#7b8799;
+    font-size:10px;
+}
+
+.form-actions{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:25px;
+    padding-top:21px;
+    border-top:1px solid #edf1f6;
+}
+
+.btn{
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:0 18px;
+    border:0;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:850;
+    transition:.2s ease;
+}
+
+.btn-primary{
+    color:#fff;
+    background:linear-gradient(135deg,var(--primary),var(--indigo));
+    box-shadow:0 9px 20px rgba(49,91,220,.22);
+}
+
+.btn-primary:hover{
+    transform:translateY(-1px);
+    box-shadow:0 13px 25px rgba(49,91,220,.28);
+}
+
+.btn-secondary{
+    color:#475569;
+    background:#f1f5f9;
+    border:1px solid #e2e8f0;
+}
+
+.btn-secondary:hover{background:#e8eef5}
+
+/* ================= SUCCESS ================= */
+.success-box{
+    display:none;
+    margin-top:18px;
+    padding:17px 19px;
+    border:1px solid #bbf7d0;
+    border-radius:14px;
+    background:#f0fdf4;
+    color:#166534;
+    font-size:12px;
+}
+
+.success-box.show{display:block}
+
+.success-box strong{
+    display:block;
+    margin-bottom:2px;
+}
+
+/* ================= FOOTER ================= */
+footer{
+    padding:28px 0;
+    background:#111d3b;
+    color:#fff;
+}
+
+.footer-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.footer-brand{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.footer-logo{
+    width:42px;
+    height:42px;
+}
+
+.footer-name{
+    font-size:15px;
+    font-weight:900;
+}
+
+.footer-desc{
+    margin-top:2px;
+    color:#aab6cf;
+    font-size:9px;
+}
+
+.footer-copy{
+    color:#8e9bb6;
+    font-size:9px;
+    text-align:right;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:760px){
+    .container{width:min(100% - 28px,1120px)}
+
+    .nav-inner{min-height:68px}
+
+    .logo-icon{
+        width:42px;
+        height:42px;
+    }
+
+    .logo-name{font-size:17px}
+    .logo-subtitle{display:none}
+
+    .back-home-btn{
+        min-height:38px;
+        padding:0 12px;
+        font-size:11px;
+    }
+
+    .page-header{
+        padding:39px 0 30px;
+    }
+
+    .page-header h1{
+        font-size:32px;
+    }
+
+    .page-header p{
+        font-size:12px;
+    }
+
+    .main{
+        padding:25px 0 50px;
+    }
+
+    .form-head{
+        padding:20px;
+    }
+
+    .form-body{
+        padding:20px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+        gap:16px;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .form-actions{
+        flex-direction:column-reverse;
+        align-items:stretch;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+    .footer-inner{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .footer-copy{
+        text-align:left;
+    }
+}
+
+@media(max-width:420px){
+    .back-home-btn span{
+        display:none;
+    }
+
+    .back-home-btn{
+        width:40px;
+        padding:0;
+    }
+
+    .page-header h1{
+        font-size:29px;
+    }
+
+    .notice{
+        padding:15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+    <div class="container nav-inner">
+
+        <a href="index.html" class="logo" aria-label="SIPENDIK Beranda">
+            <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                    <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#315BDB"/>
+                        <stop offset="55%" stop-color="#3F5FE0"/>
+                        <stop offset="100%" stop-color="#4F46E5"/>
+                    </linearGradient>
+                </defs>
+                <rect x="5" y="5" width="90" height="90" rx="27" fill="url(#logoGradient)"/>
+                <circle cx="76" cy="24" r="17" fill="white" opacity=".08"/>
+                <circle cx="23" cy="78" r="13" fill="white" opacity=".06"/>
+                <path d="M25 28 C34 18,48 15,60 18" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" opacity=".16"/>
+                <text x="50" y="59" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="900" letter-spacing="-2" fill="white">SIP</text>
+                <rect x="28" y="68" width="44" height="4" rx="2" fill="white" opacity=".9"/>
+            </svg>
+
+            <span class="logo-text">
+                <span class="logo-name">SIPENDIK</span>
+                <span class="logo-subtitle">Sistem Informasi Pendataan Peserta Didik</span>
+            </span>
+        </a>
+
+        <a href="index.html" class="back-home-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"/>
+                <path d="m12 19-7-7 7-7"/>
+            </svg>
+            <span>Kembali ke Beranda</span>
+        </a>
+
+    </div>
+</header>
+
+<!-- ================= HEADER ================= -->
+<section class="page-header">
+    <div class="container">
+
+        <div class="breadcrumb">
+            <a href="index.html">Beranda</a>
+            <span>›</span>
+            <span>Data Keterlambatan</span>
+        </div>
+
+        <div class="page-kicker">
+            <span></span>
+            Pencatatan Kedisiplinan
+        </div>
+
+        <h1>Data Keterlambatan Siswa</h1>
+
+        <p>
+            Catat data keterlambatan peserta didik secara tertib dan akurat.
+            Data yang telah dicatat dapat dipantau oleh Admin SIPENDIK.
+        </p>
+    </div>
+</section>
+
+<!-- ================= FORM ================= -->
+<main class="main">
+    <div class="container">
+
+        <div class="notice">
+            <div class="notice-icon">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 16v-4"/>
+                    <path d="M12 8h.01"/>
+                </svg>
+            </div>
+            <div>
+                <strong>Petunjuk Pengisian</strong>
+                Cari nama siswa dari Master Data Siswa. NISN dan kelas akan
+                terisi otomatis. Jam masuk sekolah ditetapkan <strong>06:30 WIB</strong>.
+                Jam datang menggunakan waktu WIB.
+            </div>
+        </div>
+
+        <form id="latenessForm" class="form-card" autocomplete="off">
+
+            <div class="form-head">
+                <div class="form-head-inner">
+                    <div class="section-number">01</div>
+                    <div>
+                        <h2>Data Keterlambatan</h2>
+                        <p>Lengkapi data siswa dan waktu kedatangan dengan benar.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-body">
+
+                <div class="grid">
+
+                    <div class="field full">
+                        <label for="searchStudent">
+                            Cari Nama Siswa <span class="required">*</span>
+                        </label>
+
+                        <div class="search-wrap">
+                            <span class="search-icon">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="7"/>
+                                    <path d="m20 20-4-4"/>
+                                </svg>
+                            </span>
+
+                            <input
+                                type="text"
+                                id="searchStudent"
+                                placeholder="Ketik nama atau NISN untuk mencari..."
+                                aria-label="Cari nama siswa"
+                            >
+                        </div>
+
+                        <div class="search-results" id="searchResults"></div>
+
+                        <div class="helper">
+                            Ketik minimal 2 karakter, lalu pilih siswa dari hasil pencarian.
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="nama">Nama Lengkap <span class="required">*</span></label>
+                        <input type="text" id="nama" name="nama" readonly placeholder="Otomatis setelah memilih siswa">
+                    </div>
+
+                    <div class="field">
+                        <label for="nisn">NISN <span class="required">*</span></label>
+                        <input type="text" id="nisn" name="nisn" readonly placeholder="Otomatis">
+                    </div>
+
+                    <div class="field">
+                        <label for="kelas">Kelas <span class="required">*</span></label>
+                        <input type="text" id="kelas" name="kelas" readonly placeholder="Otomatis">
+                    </div>
+
+                    <div class="field">
+                        <label for="tanggal">Tanggal <span class="required">*</span></label>
+                        <input type="date" id="tanggal" name="tanggal" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="jamMasuk">Jam Masuk Sekolah</label>
+                        <input type="time" id="jamMasuk" name="jamMasuk" value="06:30" readonly>
+                        <div class="helper">Tetap 06:30 WIB.</div>
+                    </div>
+
+                    <div class="field">
+                        <label for="jamDatang">Jam Datang (WIB) <span class="required">*</span></label>
+                        <input type="time" id="jamDatang" name="jamDatang" required>
+                        <div class="helper">Otomatis menggunakan waktu WIB saat halaman dibuka.</div>
+                    </div>
+
+                    <div class="field">
+                        <label for="durasi">Durasi Keterlambatan</label>
+                        <input type="text" id="durasi" name="durasi" readonly placeholder="Otomatis">
+                    </div>
+
+                    <div class="field">
+                        <label>Status</label>
+                        <div class="status-box" id="statusBox">Pilih jam datang</div>
+                    </div>
+
+                    <div class="field">
+                        <label for="alasan">Alasan Keterlambatan <span class="required">*</span></label>
+                        <select id="alasan" name="alasan" required>
+                            <option value="">-- Pilih Alasan --</option>
+                            <option>BANGUN KESIANGAN</option>
+                            <option>KETIDURAN</option>
+                            <option>KENDALA KENDARAAN</option>
+                            <option>KENDALA PERJALANAN</option>
+                            <option>TERKENDALA CUACA</option>
+                            <option>KEPERLUAN KELUARGA</option>
+                            <option>KONDISI KESEHATAN</option>
+                            <option>ALASAN LAINNYA</option>
+                        </select>
+                    </div>
+
+                    <div class="field full">
+                        <label for="keterangan">Keterangan Tambahan</label>
+                        <textarea id="keterangan" name="keterangan" placeholder="Tuliskan keterangan tambahan jika diperlukan..."></textarea>
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+                    <button type="reset" class="btn btn-secondary" id="resetBtn">
+                        Reset
+                    </button>
+
+                    <button type="submit" class="btn btn-primary">
+                        Simpan Data Keterlambatan
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                            <path d="M20 6 9 17l-5-5"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="success-box" id="successBox">
+                    <strong>Data berhasil disimpan.</strong>
+                    Data keterlambatan telah tercatat dan dapat dipantau melalui Dashboard Admin.
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+    <div class="container footer-inner">
+
+        <div class="footer-brand">
+            <svg class="footer-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="footerGradient" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#315BDB"/>
+                        <stop offset="100%" stop-color="#4F46E5"/>
+                    </linearGradient>
+                </defs>
+                <rect x="5" y="5" width="90" height="90" rx="27" fill="url(#footerGradient)"/>
+                <text x="50" y="59" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="900" letter-spacing="-2" fill="white">SIP</text>
+                <rect x="28" y="68" width="44" height="4" rx="2" fill="white" opacity=".9"/>
+            </svg>
+
+            <div>
+                <div class="footer-name">SIPENDIK</div>
+                <div class="footer-desc">Sistem Informasi Pendataan Peserta Didik</div>
+            </div>
+        </div>
+
+        <div class="footer-copy">
+            Dikembangkan oleh Indra Adiguna, ST.<br>
+            © 2026 SIPENDIK. All rights reserved.
+        </div>
+
+    </div>
+</footer>
+
+<script>
+/* =========================================================
+   SIPENDIK - DATA KETERLAMBATAN
+   Master siswa: sipendik_master_siswa
+   Data keterlambatan: sipendik_keterlambatan
+   ========================================================= */
+
+const MASTER_KEY = "sipendik_master_siswa";
+const LATENESS_KEY = "sipendik_keterlambatan";
+
+const searchStudent = document.getElementById("searchStudent");
+const searchResults = document.getElementById("searchResults");
+const namaInput = document.getElementById("nama");
+const nisnInput = document.getElementById("nisn");
+const kelasInput = document.getElementById("kelas");
+const tanggalInput = document.getElementById("tanggal");
+const jamMasukInput = document.getElementById("jamMasuk");
+const jamDatangInput = document.getElementById("jamDatang");
+const durasiInput = document.getElementById("durasi");
+const statusBox = document.getElementById("statusBox");
+const alasanInput = document.getElementById("alasan");
+const keteranganInput = document.getElementById("keterangan");
+const form = document.getElementById("latenessForm");
+const successBox = document.getElementById("successBox");
+
+let selectedStudent = null;
+
+/* ================= DATA HELPERS ================= */
+function getMasterStudents(){
+    try{
+        const data = JSON.parse(localStorage.getItem(MASTER_KEY) || "[]");
+        return Array.isArray(data) ? data : [];
+    }catch(error){
+        return [];
+    }
+}
+
+function getLatenessData(){
+    try{
+        const data = JSON.parse(localStorage.getItem(LATENESS_KEY) || "[]");
+        return Array.isArray(data) ? data : [];
+    }catch(error){
+        return [];
+    }
+}
+
+function saveLatenessData(data){
+    localStorage.setItem(LATENESS_KEY, JSON.stringify(data));
+}
+
+function escapeHTML(value){
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+/* ================= WIB TIME ================= */
+function getWIBTime(){
+    const parts = new Intl.DateTimeFormat("en-GB",{
+        timeZone:"Asia/Jakarta",
+        hour:"2-digit",
+        minute:"2-digit",
+        hour12:false
+    }).formatToParts(new Date());
+
+    const hour = parts.find(p => p.type === "hour")?.value || "00";
+    const minute = parts.find(p => p.type === "minute")?.value || "00";
+
+    return `${hour}:${minute}`;
+}
+
+function getWIBDate(){
+    const parts = new Intl.DateTimeFormat("en-CA",{
+        timeZone:"Asia/Jakarta",
+        year:"numeric",
+        month:"2-digit",
+        day:"2-digit"
+    }).formatToParts(new Date());
+
+    const year = parts.find(p => p.type === "year")?.value;
+    const month = parts.find(p => p.type === "month")?.value;
+    const day = parts.find(p => p.type === "day")?.value;
+
+    return `${year}-${month}-${day}`;
+}
+
+/* ================= STUDENT SEARCH ================= */
+function renderSearchResults(keyword){
+    const students = getMasterStudents();
+
+    const q = keyword.trim().toLowerCase();
+
+    if(q.length < 2){
+        searchResults.classList.remove("show");
+        searchResults.innerHTML = "";
+        return;
+    }
+
+    const results = students.filter(student => {
+        const nama = String(student.nama || "").toLowerCase();
+        const nisn = String(student.nisn || "").toLowerCase();
+        const kelas = String(student.kelas || "").toLowerCase();
+
+        return nama.includes(q) || nisn.includes(q) || kelas.includes(q);
+    }).slice(0,50);
+
+    if(results.length === 0){
+        searchResults.innerHTML = `
+            <div class="no-result">
+                Siswa tidak ditemukan pada Master Data Siswa.
+            </div>
+        `;
+        searchResults.classList.add("show");
+        return;
+    }
+
+    searchResults.innerHTML = results.map((student,index) => `
+        <button type="button"
+                class="student-option"
+                data-index="${index}">
+            <strong>${escapeHTML(student.nama || "-")}</strong>
+            <span>NISN: ${escapeHTML(student.nisn || "-")} &nbsp; • &nbsp; Kelas: ${escapeHTML(student.kelas || "-")}</span>
+        </button>
+    `).join("");
+
+    searchResults.querySelectorAll(".student-option").forEach((button,index) => {
+        button.addEventListener("click",() => {
+            selectStudent(results[index]);
+        });
+    });
+
+    searchResults.classList.add("show");
+}
+
+function selectStudent(student){
+    selectedStudent = student;
+
+    namaInput.value = String(student.nama || "").toUpperCase();
+    nisnInput.value = String(student.nisn || "");
+    kelasInput.value = String(student.kelas || "").toUpperCase();
+
+    searchStudent.value = `${String(student.nama || "").toUpperCase()} — ${student.nisn || ""} — ${String(student.kelas || "").toUpperCase()}`;
+
+    searchResults.classList.remove("show");
+    searchResults.innerHTML = "";
+
+    successBox.classList.remove("show");
+}
+
+searchStudent.addEventListener("input",function(){
+    selectedStudent = null;
+    namaInput.value = "";
+    nisnInput.value = "";
+    kelasInput.value = "";
+    renderSearchResults(this.value);
+});
+
+document.addEventListener("click",function(event){
+    if(!event.target.closest(".search-wrap") && !event.target.closest("#searchResults")){
+        searchResults.classList.remove("show");
+    }
+});
+
+/* ================= DURATION ================= */
+function minutesFromTime(value){
+    if(!value || !value.includes(":")) return null;
+
+    const [hour,minute] = value.split(":").map(Number);
+
+    if(!Number.isFinite(hour) || !Number.isFinite(minute)){
+        return null;
+    }
+
+    return (hour * 60) + minute;
+}
+
+function updateDuration(){
+    const masuk = minutesFromTime("06:30");
+    const datang = minutesFromTime(jamDatangInput.value);
+
+    if(masuk === null || datang === null){
+        durasiInput.value = "";
+        statusBox.textContent = "Pilih jam datang";
+        statusBox.className = "status-box";
+        return;
+    }
+
+    const duration = Math.max(datang - masuk,0);
+
+    if(duration <= 0){
+        durasiInput.value = "0 menit";
+        statusBox.textContent = "TEPAT WAKTU";
+        statusBox.className = "status-box ontime";
+        return;
+    }
+
+    const hours = Math.floor(duration / 60);
+    const minutes = duration % 60;
+
+    if(hours > 0){
+        durasiInput.value = `${hours} jam ${minutes} menit`;
+    }else{
+        durasiInput.value = `${minutes} menit`;
+    }
+
+    statusBox.textContent = "TERLAMBAT";
+    statusBox.className = "status-box late";
+}
+
+jamDatangInput.addEventListener("input",updateDuration);
+
+/* ================= DEFAULT VALUES ================= */
+function setDefaultValues(){
+    tanggalInput.value = getWIBDate();
+    jamMasukInput.value = "06:30";
+    jamDatangInput.value = getWIBTime();
+    updateDuration();
+}
+
+setDefaultValues();
+
+/* ================= RESET ================= */
+document.getElementById("resetBtn").addEventListener("click",function(){
+    setTimeout(() => {
+        selectedStudent = null;
+        searchResults.classList.remove("show");
+        searchResults.innerHTML = "";
+        successBox.classList.remove("show");
+        setDefaultValues();
+    },0);
+});
+
+/* ================= SUBMIT ================= */
+form.addEventListener("submit",function(event){
+    event.preventDefault();
+
+    if(!selectedStudent){
+        alert("Silakan cari dan pilih nama siswa terlebih dahulu.");
+        searchStudent.focus();
+        return;
+    }
+
+    if(!namaInput.value || !nisnInput.value || !kelasInput.value){
+        alert("Data siswa belum lengkap. Silakan pilih siswa dari hasil pencarian.");
+        return;
+    }
+
+    if(!tanggalInput.value){
+        alert("Silakan pilih tanggal.");
+        tanggalInput.focus();
+        return;
+    }
+
+    if(!jamDatangInput.value){
+        alert("Silakan isi jam datang.");
+        jamDatangInput.focus();
+        return;
+    }
+
+    if(!alasanInput.value){
+        alert("Silakan pilih alasan keterlambatan.");
+        alasanInput.focus();
+        return;
+    }
+
+    updateDuration();
+
+    const data = getLatenessData();
+
+    const record = {
+        id: Date.now().toString(),
+        nama: namaInput.value.toUpperCase(),
+        nisn: nisnInput.value,
+        kelas: kelasInput.value.toUpperCase(),
+        tanggal: tanggalInput.value,
+        jamMasuk: "06:30",
+        jamDatang: jamDatangInput.value,
+        durasi: durasiInput.value,
+        status: statusBox.textContent,
+        alasan: alasanInput.value.toUpperCase(),
+        keterangan: keteranganInput.value.toUpperCase(),
+        createdAt: new Date().toISOString()
+    };
+
+    data.push(record);
+    saveLatenessData(data);
+
+    successBox.classList.add("show");
+
+    successBox.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
+
+    /* Reset hanya setelah berhasil, dengan nilai waktu baru. */
+    form.reset();
+
+    selectedStudent = null;
+    searchResults.classList.remove("show");
+    searchResults.innerHTML = "";
+
+    setDefaultValues();
+
+    window.scrollBy(0,-30);
+});
+
+/* ================= STORAGE UPDATE ================= */
+window.addEventListener("storage",function(event){
+    if(event.key === MASTER_KEY){
+        /* Master siswa berubah di tab admin; pencarian akan memakai data terbaru. */
+        if(selectedStudent){
+            const exists = getMasterStudents().some(s =>
+                String(s.nisn || "") === String(selectedStudent.nisn || "")
+            );
+
+            if(!exists){
+                selectedStudent = null;
+                searchStudent.value = "";
+                namaInput.value = "";
+                nisnInput.value = "";
+                kelasInput.value = "";
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

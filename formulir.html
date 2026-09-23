@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIPENDIK | Formulir Data Peserta Didik</title>
+<meta name="description" content="Formulir Data Peserta Didik SIPENDIK">
+
+<style>
+:root{
+    --blue:#315BDB;
+    --blue2:#4F46E5;
+    --navy:#19345F;
+    --text:#38557E;
+    --muted:#7184A5;
+    --line:#E1E8F4;
+    --soft:#F5F8FF;
+    --success:#16A34A;
+    --danger:#DC2626;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+    font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
+    color:var(--text);
+    background:#F6F8FC;
+    overflow-x:hidden;
+}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+input,select,textarea{width:100%}
+input:focus,select:focus,textarea:focus{
+    outline:none;
+    border-color:#6684E8;
+    box-shadow:0 0 0 4px rgba(49,91,219,.09);
+}
+input[readonly]{
+    background:#F0F4FA;
+    color:#526A8D;
+    cursor:not-allowed;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+.header{
+    height:76px;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:linear-gradient(105deg,#2858D8 0%,#315BDB 48%,#4F46E5 100%);
+    box-shadow:0 5px 22px rgba(32,57,106,.16);
+}
+.nav{
+    height:100%;
+    max-width:1240px;
+    margin:auto;
+    padding:0 24px;
+    display:flex;
+    align-items:center;
+    gap:28px;
+}
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#fff;
+    flex-shrink:0;
+}
+.brand-icon{
+    width:46px;
+    height:46px;
+    filter:drop-shadow(0 6px 10px rgba(10,35,100,.18));
+}
+.brand-name{
+    font-size:18px;
+    line-height:1;
+    font-weight:900;
+    letter-spacing:-.5px;
+}
+.brand-subtitle{
+    display:block;
+    margin-top:4px;
+    font-size:8px;
+    line-height:1.2;
+    color:rgba(255,255,255,.78);
+    font-weight:600;
+}
+.nav-links{
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:29px;
+}
+.nav-link{
+    position:relative;
+    padding:29px 0 26px;
+    color:rgba(255,255,255,.92);
+    font-size:12px;
+    font-weight:750;
+}
+.nav-link:hover,
+.nav-link.active{
+    color:#fff;
+}
+.nav-link.active:after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:3px;
+    border-radius:4px 4px 0 0;
+    background:#fff;
+}
+.admin-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    min-width:118px;
+    padding:10px 15px;
+    border:1px solid rgba(255,255,255,.35);
+    border-radius:11px;
+    background:rgba(255,255,255,.11);
+    color:#fff;
+    font-size:11px;
+    font-weight:800;
+}
+.admin-btn:hover{background:rgba(255,255,255,.18)}
+.menu-btn{
+    display:none;
+    margin-left:auto;
+    width:40px;
+    height:40px;
+    border:1px solid rgba(255,255,255,.28);
+    border-radius:10px;
+    background:rgba(255,255,255,.12);
+    color:#fff;
+    font-size:20px;
+}
+
+/* =========================
+   PAGE HERO
+========================= */
+.page-hero{
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 82% 15%,rgba(79,70,229,.12),transparent 28%),
+        linear-gradient(180deg,#F5F8FF 0%,#ECF2FF 100%);
+    border-bottom:1px solid #E3EAF6;
+}
+.page-hero:before{
+    content:"";
+    position:absolute;
+    width:360px;
+    height:360px;
+    border-radius:50%;
+    right:-170px;
+    top:-240px;
+    background:rgba(79,70,229,.06);
+}
+.page-hero:after{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    left:-110px;
+    bottom:-130px;
+    background:rgba(49,91,219,.05);
+}
+.page-hero-inner{
+    position:relative;
+    z-index:2;
+    max-width:1240px;
+    margin:auto;
+    padding:46px 24px 40px;
+}
+.hero-label{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 11px;
+    background:#E6EDFF;
+    border:1px solid #D5E0FF;
+    border-radius:30px;
+    color:var(--blue);
+    font-size:10px;
+    font-weight:850;
+    margin-bottom:13px;
+}
+.hero-label i{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--blue);
+}
+.page-hero h1{
+    color:var(--navy);
+    font-size:38px;
+    line-height:1.12;
+    letter-spacing:-1.2px;
+    font-weight:900;
+}
+.page-hero p{
+    max-width:680px;
+    margin-top:9px;
+    color:#6980A2;
+    font-size:13px;
+    line-height:1.65;
+}
+.breadcrumb{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:16px;
+    font-size:10px;
+    color:#7185A4;
+}
+.breadcrumb a:hover{color:var(--blue)}
+.breadcrumb strong{color:var(--blue);font-weight:800}
+
+/* =========================
+   MAIN
+========================= */
+.main{
+    max-width:1000px;
+    margin:auto;
+    padding:27px 24px 70px;
+}
+
+/* NOTICE */
+.notice{
+    position:relative;
+    display:flex;
+    gap:13px;
+    align-items:flex-start;
+    padding:17px 19px;
+    margin-bottom:18px;
+    background:linear-gradient(135deg,#F3F7FF,#EDF3FF);
+    border:1px solid #C9D9FF;
+    border-left:4px solid var(--blue);
+    border-radius:14px;
+    box-shadow:0 8px 24px rgba(46,76,132,.05);
+}
+.notice-icon{
+    width:30px;
+    height:30px;
+    flex:none;
+    border-radius:9px;
+    background:#DDE8FF;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--blue);
+}
+.notice strong{
+    display:block;
+    color:#244575;
+    font-size:12px;
+    margin-bottom:5px;
+}
+.notice p{
+    font-size:11px;
+    line-height:1.7;
+    color:#567092;
+}
+.notice b{color:#25467A}
+
+/* FORM CARD */
+.form-card{
+    background:#fff;
+    border:1px solid #E0E7F2;
+    border-radius:18px;
+    margin-bottom:18px;
+    overflow:hidden;
+    box-shadow:0 10px 32px rgba(35,60,105,.065);
+}
+.section-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:17px 19px;
+    background:linear-gradient(135deg,#F1F5FF,#EAF0FF);
+    border-bottom:1px solid #DDE5F2;
+}
+.section-number{
+    width:30px;
+    height:30px;
+    flex:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:9px;
+    color:#fff;
+    background:linear-gradient(135deg,var(--blue),var(--blue2));
+    font-size:11px;
+    font-weight:900;
+}
+.section-title h2{
+    color:#19365F;
+    font-size:14px;
+    font-weight:900;
+}
+.section-title p{
+    color:#7487A5;
+    font-size:9px;
+    margin-top:4px;
+}
+.section-body{
+    padding:20px;
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:16px;
+}
+.field.full{grid-column:1/-1}
+.field label{
+    display:block;
+    margin-bottom:6px;
+    color:#29476F;
+    font-size:10px;
+    line-height:1.3;
+    font-weight:800;
+}
+.required{color:#DC2626}
+.field input,
+.field select,
+.field textarea{
+    min-height:39px;
+    padding:9px 11px;
+    border:1px solid #D7E0ED;
+    border-radius:9px;
+    background:#fff;
+    color:#365477;
+    font-size:11px;
+    transition:.2s ease;
+}
+.field textarea{
+    min-height:85px;
+    resize:vertical;
+}
+.field select{
+    appearance:auto;
+}
+.help{
+    margin-top:5px;
+    font-size:8px;
+    line-height:1.5;
+    color:#8191AA;
+}
+.search-box{
+    position:relative;
+}
+.search-box input{
+    padding-left:38px;
+}
+.search-icon{
+    position:absolute;
+    left:12px;
+    top:50%;
+    transform:translateY(-50%);
+    color:var(--blue);
+    pointer-events:none;
+}
+.search-results{
+    display:none;
+    margin-top:6px;
+    border:1px solid #D7E1F0;
+    border-radius:11px;
+    background:#fff;
+    overflow:hidden;
+    max-height:235px;
+    overflow-y:auto;
+    box-shadow:0 14px 30px rgba(28,55,105,.12);
+}
+.search-results.show{display:block}
+.student-option{
+    width:100%;
+    border:0;
+    border-bottom:1px solid #EEF2F7;
+    background:#fff;
+    text-align:left;
+    padding:10px 12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.student-option:last-child{border-bottom:0}
+.student-option:hover{background:#F3F6FF}
+.option-avatar{
+    width:30px;
+    height:30px;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#E8EEFF;
+    color:var(--blue);
+    font-size:9px;
+    font-weight:900;
+    flex:none;
+}
+.option-info strong{
+    display:block;
+    color:#29476F;
+    font-size:10px;
+}
+.option-info span{
+    display:block;
+    margin-top:3px;
+    color:#8191A9;
+    font-size:8px;
+}
+.selected-badge{
+    display:none;
+    margin-top:7px;
+    padding:7px 9px;
+    border-radius:8px;
+    background:#EDF8F1;
+    color:#287846;
+    font-size:9px;
+    font-weight:800;
+}
+.selected-badge.show{display:block}
+
+/* FILE */
+.file-wrap{
+    border:1px dashed #B8C8E1;
+    border-radius:11px;
+    padding:13px;
+    background:#FAFCFF;
+}
+.file-wrap input{
+    border:0;
+    padding:0;
+    min-height:auto;
+    background:transparent;
+}
+.file-info{
+    display:none;
+    margin-top:7px;
+    padding:7px 9px;
+    border-radius:8px;
+    background:#EEF8F1;
+    color:#287846;
+    font-size:9px;
+    line-height:1.4;
+}
+.file-note{
+    margin-top:6px;
+    color:#7C8DA7;
+    font-size:8px;
+    line-height:1.5;
+}
+
+/* SUBMIT */
+.submit-card{
+    padding:18px;
+    border:1px solid #DDE5F2;
+    border-radius:17px;
+    background:linear-gradient(135deg,#F7F9FF,#EEF3FF);
+    box-shadow:0 10px 30px rgba(35,60,105,.055);
+}
+.submit-info{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    margin-bottom:15px;
+}
+.submit-info svg{flex:none;color:var(--blue);margin-top:2px}
+.submit-info p{
+    color:#637B9E;
+    font-size:9px;
+    line-height:1.65;
+}
+.submit-actions{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:10px;
+}
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    min-height:40px;
+    padding:10px 18px;
+    border-radius:10px;
+    font-size:11px;
+    font-weight:850;
+    border:1px solid transparent;
+    transition:.2s ease;
+}
+.btn-primary{
+    color:#fff;
+    background:linear-gradient(135deg,var(--blue),var(--blue2));
+    box-shadow:0 8px 18px rgba(49,91,219,.2);
+}
+.btn-primary:hover{
+    transform:translateY(-1px);
+    box-shadow:0 11px 23px rgba(49,91,219,.25);
+}
+.btn-secondary{
+    color:#536C90;
+    background:#fff;
+    border-color:#D6E0ED;
+}
+.btn-secondary:hover{background:#F5F8FF}
+.success-box{
+    display:none;
+    margin-bottom:18px;
+    padding:15px 17px;
+    border:1px solid #BCE2C8;
+    border-left:4px solid #16A34A;
+    border-radius:13px;
+    background:#F0FAF3;
+    color:#287846;
+    font-size:11px;
+    line-height:1.6;
+}
+.success-box.show{display:block}
+
+/* FOOTER */
+footer{
+    background:#F0F4FA;
+    border-top:1px solid #E0E7F2;
+    padding:24px;
+}
+.footer-wrap{
+    max-width:1000px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+.footer-brand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+.footer-icon{width:38px;height:38px}
+.footer-name{font-size:13px;font-weight:900;color:#19365F}
+.footer-sub{font-size:8px;color:#7185A3;margin-top:2px}
+.copyright{
+    text-align:right;
+    font-size:8px;
+    line-height:1.6;
+    color:#7588A5;
+}
+
+/* MOBILE */
+@media(max-width:1080px){
+    .nav{gap:18px}
+    .nav-links{gap:15px}
+    .nav-link{font-size:10px}
+    .admin-btn{min-width:86px;padding:9px 11px;font-size:10px}
+}
+
+@media(max-width:900px){
+    .nav-links{gap:19px}
+    .nav-link{font-size:11px}
+    .main{max-width:900px}
+}
+@media(max-width:760px){
+    .header{height:68px}
+    .nav{padding:0 16px}
+    .brand-icon{width:43px;height:43px}
+    .brand-name{font-size:17px}
+    .brand-subtitle{display:none}
+    .nav-links{
+        display:none;
+        position:absolute;
+        top:68px;
+        left:10px;
+        right:10px;
+        padding:8px;
+        flex-direction:column;
+        gap:2px;
+        background:#fff;
+        border:1px solid #DDE5F2;
+        border-radius:13px;
+        box-shadow:0 15px 35px rgba(25,48,92,.15);
+    }
+    .nav-links.show{display:flex}
+    .nav-link{
+        width:100%;
+        padding:11px 13px;
+        color:#365276;
+        border-radius:8px;
+    }
+    .nav-link.active{
+        color:var(--blue);
+        background:#F0F4FF;
+    }
+    .nav-link.active:after{display:none}
+    .admin-btn{display:none}
+    .menu-btn{display:block}
+
+    .page-hero-inner{padding:32px 18px 28px}
+    .page-hero h1{font-size:30px}
+    .page-hero p{font-size:11px}
+    .main{padding:20px 14px 55px}
+    .notice{padding:14px}
+    .notice p{font-size:10px}
+    .section-body{padding:15px}
+    .grid{grid-template-columns:1fr;gap:13px}
+    .field.full{grid-column:auto}
+    .submit-actions{flex-direction:column-reverse}
+    .btn{width:100%}
+    .footer-wrap{flex-direction:column;align-items:flex-start}
+    .copyright{text-align:left}
+}
+@media(max-width:420px){
+    .page-hero-inner{padding:27px 15px 24px}
+    .page-hero h1{font-size:26px}
+    .hero-label{font-size:8px}
+    .breadcrumb{font-size:8px}
+    .main{padding-left:10px;padding-right:10px}
+    .form-card{border-radius:14px}
+    .section-head{padding:14px}
+    .section-number{width:27px;height:27px;font-size:10px}
+    .section-title h2{font-size:12px}
+    .section-title p{font-size:8px}
+    .section-body{padding:13px}
+    .field label{font-size:9px}
+    .field input,.field select,.field textarea{font-size:10px}
+}
+
+/* ================= FORM NAVIGATION ================= */
+.back-home-btn{
+    margin-left:auto;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    min-height:40px;
+    padding:0 15px;
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:10px;
+    background:rgba(255,255,255,.10);
+    color:#fff;
+    font-size:12px;
+    font-weight:800;
+    text-decoration:none;
+    transition:.2s ease;
+}
+.back-home-btn:hover{
+    background:#fff;
+    color:#315bdc;
+    transform:translateX(-2px);
+}
+@media(max-width:700px){
+    .back-home-btn{
+        min-height:38px;
+        padding:0 11px;
+        font-size:11px;
+    }
+    .back-home-btn span{
+        display:inline;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="header">
+<nav class="nav">
+
+<a class="brand" href="index.html" aria-label="SIPENDIK Beranda">
+<svg class="brand-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="logoG" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#315BDB"/>
+<stop offset="55%" stop-color="#3F5FE0"/>
+<stop offset="100%" stop-color="#4F46E5"/>
+</linearGradient>
+</defs>
+<rect x="6" y="6" width="88" height="88" rx="27" fill="url(#logoG)"/>
+<circle cx="75" cy="25" r="17" fill="#fff" opacity=".08"/>
+<circle cx="24" cy="77" r="13" fill="#fff" opacity=".06"/>
+<path d="M25 28 C34 18,48 15,60 18" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".16"/>
+<text x="50" y="59" text-anchor="middle" font-family="Arial" font-size="30" font-weight="900" letter-spacing="-2" fill="#fff">SIP</text>
+<rect x="28" y="68" width="44" height="4" rx="2" fill="#fff" opacity=".9"/>
+</svg>
+<div>
+<div class="brand-name">SIPENDIK</div>
+<span class="brand-subtitle">Sistem Informasi Pendataan Peserta Didik</span>
+</div>
+</a>
+
+
+<a class="back-home-btn" href="index.html" aria-label="Kembali ke Beranda">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M19 12H5"/>
+        <path d="m12 19-7-7 7-7"/>
+    </svg>
+    <span>Kembali ke Beranda</span>
+</a>
+<button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">☰</button>
+</nav>
+</header>
+
+<section class="page-hero">
+<div class="page-hero-inner">
+<div class="hero-label"><i></i>FORMULIR ONLINE SIPENDIK</div>
+<h1>Formulir Data Peserta Didik</h1>
+<p>Lengkapi data peserta didik dengan benar sesuai dokumen resmi. Data Nama, NISN, dan Kelas akan diambil otomatis dari Master Data Siswa.</p>
+
+<div class="breadcrumb">
+<a href="index.html">Beranda</a>
+<span>›</span>
+<strong>Formulir Peserta Didik</strong>
+</div>
+</div>
+</section>
+
+<main class="main">
+
+<div class="success-box" id="successBox">
+<strong>✓ Data berhasil disimpan.</strong><br>
+Data peserta didik telah berhasil dikirim ke SIPENDIK.
+</div>
+
+<div class="notice">
+<div class="notice-icon">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M12 17v-5M12 8h.01"/>
+<circle cx="12" cy="12" r="9"/>
+</svg>
+</div>
+<div>
+<strong>Petunjuk Pengisian</strong>
+<p>
+Nama, NISN, dan Kelas diambil langsung dari <b>Master Data Siswa</b> yang dikelola oleh admin.
+Cari nama siswa pada kolom pencarian di bawah, kemudian pilih data yang sesuai.
+Data tersebut tidak perlu diketik ulang.
+</p>
+</div>
+</div>
+
+<form id="studentForm" novalidate>
+
+<!-- 01 IDENTITAS -->
+<section class="form-card">
+<div class="section-head">
+<div class="section-number">01</div>
+<div class="section-title">
+<h2>Identitas Peserta Didik</h2>
+<p>Pilih nama peserta didik dari Master Data Siswa.</p>
+</div>
+</div>
+
+<div class="section-body">
+
+<div class="field full" style="margin-bottom:15px">
+<label>Cari Nama Siswa <span class="required">*</span></label>
+<div class="search-box">
+<svg class="search-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<circle cx="11" cy="11" r="7"/>
+<path d="m20 20-4-4"/>
+</svg>
+<input
+type="text"
+id="studentSearch"
+autocomplete="off"
+placeholder="Ketik nama atau NISN untuk mencari..."
+>
+</div>
+<div class="help">Ketik minimal 2 karakter. Pilih siswa dari hasil pencarian.</div>
+<div class="search-results" id="searchResults"></div>
+<div class="selected-badge" id="selectedBadge"></div>
+</div>
+
+<div class="grid">
+
+<div class="field">
+<label>Nama Lengkap <span class="required">*</span></label>
+<input type="text" id="nama" name="nama" readonly required placeholder="Otomatis setelah memilih siswa">
+</div>
+
+<div class="field">
+<label>NISN <span class="required">*</span></label>
+<input type="text" id="nisn" name="nisn" readonly required placeholder="Otomatis">
+</div>
+
+<div class="field">
+<label>Kelas <span class="required">*</span></label>
+<input type="text" id="kelas" name="kelas" readonly required placeholder="Otomatis">
+</div>
+
+<div class="field">
+<label>NIK <span class="required">*</span></label>
+<input type="text" id="nik" name="nik" inputmode="numeric" maxlength="16" placeholder="Masukkan NIK" required>
+</div>
+
+<div class="field">
+<label>Nomor KK <span class="required">*</span></label>
+<input type="text" id="noKK" name="noKK" inputmode="numeric" maxlength="16" placeholder="Masukkan Nomor KK" required>
+</div>
+
+<div class="field">
+<label>Jenis Kelamin <span class="required">*</span></label>
+<select id="jenisKelamin" name="jenisKelamin" required>
+<option value="">-- Pilih Jenis Kelamin --</option>
+<option value="LAKI-LAKI">LAKI-LAKI</option>
+<option value="PEREMPUAN">PEREMPUAN</option>
+</select>
+</div>
+
+<div class="field">
+<label>Tempat Lahir <span class="required">*</span></label>
+<input type="text" id="tempatLahir" name="tempatLahir" placeholder="Contoh: BANDUNG" required>
+</div>
+
+<div class="field">
+<label>Tanggal Lahir <span class="required">*</span></label>
+<input type="date" id="tanggalLahir" name="tanggalLahir" required>
+</div>
+
+<div class="field">
+<label>Agama / Kepercayaan <span class="required">*</span></label>
+<select id="agama" name="agama" required>
+<option value="">-- Pilih Agama / Kepercayaan --</option>
+<option>ISLAM</option>
+<option>KRISTEN</option>
+<option>KATOLIK</option>
+<option>HINDU</option>
+<option>BUDDHA</option>
+<option>KHONGHUCU</option>
+<option>KEPERCAYAAN TERHADAP TUHAN YME</option>
+<option>LAINNYA</option>
+</select>
+</div>
+
+<div class="field">
+<label>Kewarganegaraan <span class="required">*</span></label>
+<select id="kewarganegaraan" name="kewarganegaraan" required>
+<option value="">-- Pilih Kewarganegaraan --</option>
+<option>INDONESIA</option>
+<option>ASING</option>
+</select>
+</div>
+
+<div class="field">
+<label>No. Registrasi Akta Kelahiran <span class="required">*</span></label>
+<input type="text" id="noAkta" name="noAkta" placeholder="Masukkan nomor registrasi akta" required>
+</div>
+
+<div class="field">
+<label>Asal Sekolah <span class="required">*</span></label>
+<input type="text" id="asalSekolah" name="asalSekolah" placeholder="Contoh: SMP NEGERI 1 BANDUNG" required>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- 02 ALAMAT -->
+<section class="form-card">
+<div class="section-head">
+<div class="section-number">02</div>
+<div class="section-title">
+<h2>Alamat & Tempat Tinggal</h2>
+<p>Lengkapi alamat tempat tinggal peserta didik.</p>
+</div>
+</div>
+
+<div class="section-body">
+<div class="grid">
+
+<div class="field full">
+<label>Alamat Jalan <span class="required">*</span></label>
+<textarea id="alamat" name="alamat" placeholder="Masukkan alamat lengkap" required></textarea>
+</div>
+
+<div class="field">
+<label>RT / RW <span class="required">*</span></label>
+<input type="text" id="rtRw" name="rtRw" placeholder="Contoh: 001 / 005" required>
+</div>
+
+<div class="field">
+<label>Desa / Kelurahan <span class="required">*</span></label>
+<input type="text" id="desa" name="desa" placeholder="Nama Desa / Kelurahan" required>
+</div>
+
+<div class="field">
+<label>Kecamatan <span class="required">*</span></label>
+<input type="text" id="kecamatan" name="kecamatan" placeholder="Nama Kecamatan" required>
+</div>
+
+<div class="field">
+<label>Kabupaten / Kota <span class="required">*</span></label>
+<input type="text" id="kabupaten" name="kabupaten" placeholder="Nama Kabupaten / Kota" required>
+</div>
+
+<div class="field">
+<label>Provinsi <span class="required">*</span></label>
+<input type="text" id="provinsi" name="provinsi" placeholder="Nama Provinsi" required>
+</div>
+
+<div class="field">
+<label>Kode Pos <span class="required">*</span></label>
+<input type="text" id="kodePos" name="kodePos" inputmode="numeric" maxlength="5" placeholder="Contoh: 40123" required>
+</div>
+
+<div class="field">
+<label>Tempat Tinggal <span class="required">*</span></label>
+<select id="tempatTinggal" name="tempatTinggal" required>
+<option value="">-- Pilih Tempat Tinggal --</option>
+<option>BERSAMA ORANG TUA</option>
+<option>BERSAMA WALI</option>
+<option>KOS</option>
+<option>ASRAMA</option>
+<option>PANTI ASUHAN</option>
+<option>LAINNYA</option>
+</select>
+</div>
+
+<div class="field">
+<label>Moda Transportasi <span class="required">*</span></label>
+<select id="transportasi" name="transportasi" required>
+<option value="">-- Pilih Moda Transportasi --</option>
+<option>JALAN KAKI</option>
+<option>SEPEDA</option>
+<option>SEPEDA MOTOR</option>
+<option>MOBIL PRIBADI</option>
+<option>ANGKUTAN UMUM</option>
+<option>JEMPUTAN SEKOLAH</option>
+<option>OJEK ONLINE</option>
+<option>DIANTAR ORANG TUA</option>
+<option>LAINNYA</option>
+</select>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- 03 KONTAK -->
+<section class="form-card">
+<div class="section-head">
+<div class="section-number">03</div>
+<div class="section-title">
+<h2>Kontak & Data Keluarga</h2>
+<p>Informasi kontak peserta didik dan keluarga.</p>
+</div>
+</div>
+
+<div class="section-body">
+<div class="grid">
+
+<div class="field">
+<label>HP Siswa <span class="required">*</span></label>
+<input type="text" id="hpSiswa" name="hpSiswa" inputmode="numeric" placeholder="Contoh: 081234567890" required>
+</div>
+
+<div class="field">
+<label>Email Siswa <span class="required">*</span></label>
+<input type="email" id="emailSiswa" name="emailSiswa" placeholder="contoh@email.com" required>
+</div>
+
+<div class="field">
+<label>HP Orang Tua <span class="required">*</span></label>
+<input type="text" id="hpOrangTua" name="hpOrangTua" inputmode="numeric" placeholder="Nomor HP orang tua" required>
+</div>
+
+<div class="field">
+<label>Anak Ke- <span class="required">*</span></label>
+<input type="number" id="anakKe" name="anakKe" min="1" placeholder="Contoh: 2" required>
+</div>
+
+<div class="field">
+<label>Jumlah Saudara Kandung <span class="required">*</span></label>
+<input type="number" id="jumlahSaudara" name="jumlahSaudara" min="0" placeholder="Contoh: 2" required>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- 04 AYAH -->
+<section class="form-card">
+<div class="section-head">
+<div class="section-number">04</div>
+<div class="section-title">
+<h2>Data Ayah Kandung</h2>
+<p>Isi sesuai dokumen resmi keluarga.</p>
+</div>
+</div>
+
+<div class="section-body">
+<div class="grid">
+
+<div class="field">
+<label>Nama Ayah <span class="required">*</span></label>
+<input type="text" id="namaAyah" name="namaAyah" required>
+</div>
+
+<div class="field">
+<label>NIK Ayah <span class="required">*</span></label>
+<input type="text" id="nikAyah" name="nikAyah" inputmode="numeric" maxlength="16" required>
+</div>
+
+<div class="field">
+<label>Tahun Lahir Ayah <span class="required">*</span></label>
+<input type="text" id="tahunAyah" name="tahunAyah" inputmode="numeric" maxlength="4" placeholder="Contoh: 1978" required>
+</div>
+
+<div class="field">
+<label>Pendidikan Terakhir <span class="required">*</span></label>
+<select id="pendidikanAyah" name="pendidikanAyah" required>
+<option value="">-- Pilih Pendidikan --</option>
+<option>TIDAK SEKOLAH</option>
+<option>SD / SEDERAJAT</option>
+<option>SMP / SEDERAJAT</option>
+<option>SMA / SEDERAJAT</option>
+<option>D1</option>
+<option>D2</option>
+<option>D3</option>
+<option>D4 / S1</option>
+<option>S2</option>
+<option>S3</option>
+</select>
+</div>
+
+<div class="field">
+<label>Pekerjaan <span class="required">*</span></label>
+<input type="text" id="pekerjaanAyah" name="pekerjaanAyah" required>
+</div>
+
+<div class="field">
+<label>Penghasilan Bulanan <span class="required">*</span></label>
+<select id="penghasilanAyah" name="penghasilanAyah" required>
+<option value="">-- Pilih Penghasilan --</option>
+<option>TIDAK BERPENGHASILAN</option>
+<option>KURANG DARI RP500.000</option>
+<option>RP500.000 - RP999.999</option>
+<option>RP1.000.000 - RP1.999.999</option>
+<option>RP2.000.000 - RP3.999.999</option>
+<option>RP4.000.000 - RP5.999.999</option>
+<option>RP6.000.000 - RP7.999.999</option>
+<option>RP8.000.000 - RP9.999.999</option>
+<option>RP10.000.000 ATAU LEBIH</option>
+</select>
+</div>
+
+<div class="field">
+<label>Nomor HP Ayah <span class="required">*</span></label>
+<input type="text" id="hpAyah" name="hpAyah" inputmode="numeric" required>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- 05 IBU -->
+<section class="form-card">
+<div class="section-head">
+<div class="section-number">05</div>
+<div class="section-title">
+<h2>Data Ibu Kandung</h2>
+<p>Isi sesuai dokumen resmi keluarga.</p>
+</div>
+</div>
+
+<div class="section-body">
+<div class="grid">
+
+<div class="field">
+<label>Nama Ibu <span class="required">*</span></label>
+<input type="text" id="namaIbu" name="namaIbu" required>
+</div>
+
+<div class="field">
+<label>NIK Ibu <span class="required">*</span></label>
+<input type="text" id="nikIbu" name="nikIbu" inputmode="numeric" maxlength="16" required>
+</div>
+
+<div class="field">
+<label>Tahun Lahir Ibu <span class="required">*</span></label>
+<input type="text" id="tahunIbu" name="tahunIbu" inputmode="numeric" maxlength="4" placeholder="Contoh: 1982" required>
+</div>
+
+<div class="field">
+<label>Pendidikan Terakhir <span class="required">*</span></label>
+<select id="pendidikanIbu" name="pendidikanIbu" required>
+<option value="">-- Pilih Pendidikan --</option>
+<option>TIDAK SEKOLAH</option>
+<option>SD / SEDERAJAT</option>
+<option>SMP / SEDERAJAT</option>
+<option>SMA / SEDERAJAT</option>
+<option>D1</option>
+<option>D2</option>
+<option>D3</option>
+<option>D4 / S1</option>
+<option>S2</option>
+<option>S3</option>
+</select>
+</div>
+
+<div class="field">
+<label>Pekerjaan <span class="required">*</span></label>
+<input type="text" id="pekerjaanIbu" name="pekerjaanIbu" required>
+</div>
+
+<div class="field">
+<label>Penghasilan Bulanan <span class="required">*</span></label>
+<select id="penghasilanIbu" name="penghasilanIbu" required>
+<option value="">-- Pilih Penghasilan --</option>
+<option>TIDAK BERPENGHASILAN</option>
+<option>KURANG DARI RP500.000</option>
+<option>RP500.000 - RP999.999</option>
+<option>RP1.000.000 - RP1.999.999</option>
+<option>RP2.000.000 - RP3.999.999</option>
+<option>RP4.000.000 - RP5.999.999</option>
+<option>RP6.000.000 - RP7.999.999</option>
+<option>RP8.000.000 - RP9.999.999</option>
+<option>RP10.000.000 ATAU LEBIH</option>
+</select>
+</div>
+
+<div class="field">
+<label>Nomor HP Ibu <span class="required">*</span></label>
+<input type="text" id="hpIbu" name="hpIbu" inputmode="numeric" required>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- 06 PERIODIK -->
+<section class="form-card">
+<div class="section-head">
+<div class="section-number">06</div>
+<div class="section-title">
+<h2>Data Periodik</h2>
+<p>Data kondisi fisik dan jarak tempat tinggal.</p>
+</div>
+</div>
+
+<div class="section-body">
+<div class="grid">
+
+<div class="field">
+<label>Tinggi Badan (cm) <span class="required">*</span></label>
+<input type="number" id="tinggiBadan" name="tinggiBadan" min="1" placeholder="Contoh: 155" required>
+</div>
+
+<div class="field">
+<label>Berat Badan (kg) <span class="required">*</span></label>
+<input type="number" id="beratBadan" name="beratBadan" min="1" placeholder="Contoh: 48" required>
+</div>
+
+<div class="field">
+<label>Jarak Rumah ke Sekolah <span class="required">*</span></label>
+<select id="jarakRumah" name="jarakRumah" required>
+<option value="">-- Pilih Jarak --</option>
+<option>KURANG DARI 1 KM</option>
+<option>1 - 3 KM</option>
+<option>3 - 5 KM</option>
+<option>5 - 10 KM</option>
+<option>LEBIH DARI 10 KM</option>
+</select>
+</div>
+
+<div class="field">
+<label>Waktu Tempuh <span class="required">*</span></label>
+<select id="waktuTempuh" name="waktuTempuh" required>
+<option value="">-- Pilih Waktu --</option>
+<option>KURANG DARI 15 MENIT</option>
+<option>15 - 30 MENIT</option>
+<option>31 - 60 MENIT</option>
+<option>61 - 90 MENIT</option>
+<option>LEBIH DARI 90 MENIT</option>
+</select>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- 07 DOKUMEN -->
+<section class="form-card">
+<div class="section-head">
+<div class="section-number">07</div>
+<div class="section-title">
+<h2>Dokumen Pendukung</h2>
+<p>Upload dokumen dalam format PDF dengan ukuran maksimal 2 MB.</p>
+</div>
+</div>
+
+<div class="section-body">
+<div class="grid">
+
+<div class="field">
+<label>Kartu Keluarga (KK) <span class="required">*</span></label>
+<div class="file-wrap">
+<input type="file" id="fileKK" name="fileKK" accept=".pdf,application/pdf" required>
+<div class="file-info" id="infoKK"></div>
+<div class="file-note">Format PDF • Maksimal 2 MB</div>
+</div>
+</div>
+
+<div class="field">
+<label>Akta Kelahiran <span class="required">*</span></label>
+<div class="file-wrap">
+<input type="file" id="fileAkta" name="fileAkta" accept=".pdf,application/pdf" required>
+<div class="file-info" id="infoAkta"></div>
+<div class="file-note">Format PDF • Maksimal 2 MB</div>
+</div>
+</div>
+
+<div class="field">
+<label>Ijazah SMP <span class="required">*</span></label>
+<div class="file-wrap">
+<input type="file" id="fileIjazah" name="fileIjazah" accept=".pdf,application/pdf" required>
+<div class="file-info" id="infoIjazah"></div>
+<div class="file-note">Format PDF • Maksimal 2 MB</div>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<div class="submit-card">
+<div class="submit-info">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+<path d="M9 12l2 2 4-4"/>
+</svg>
+<p>
+Pastikan seluruh data telah diperiksa kembali sebelum dikirim.
+Data yang sudah dikirim akan tercatat sebagai data peserta didik yang telah mengisi formulir.
+</p>
+</div>
+
+<div class="submit-actions">
+<button type="reset" class="btn btn-secondary">Reset Formulir</button>
+<button type="submit" class="btn btn-primary">
+Kirim Data Peserta Didik
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</button>
+</div>
+</div>
+
+</form>
+</main>
+
+<footer>
+<div class="footer-wrap">
+
+<div class="footer-brand">
+<svg class="footer-icon" viewBox="0 0 100 100">
+<defs>
+<linearGradient id="footerG" x1="0" y1="0" x2="1" y2="1">
+<stop stop-color="#315BDB"/>
+<stop offset="1" stop-color="#4F46E5"/>
+</linearGradient>
+</defs>
+<rect x="6" y="6" width="88" height="88" rx="27" fill="url(#footerG)"/>
+<text x="50" y="59" text-anchor="middle" font-family="Arial" font-size="30" font-weight="900" fill="white">SIP</text>
+<rect x="28" y="68" width="44" height="4" rx="2" fill="white"/>
+</svg>
+<div>
+<div class="footer-name">SIPENDIK</div>
+<div class="footer-sub">Sistem Informasi Pendataan Peserta Didik</div>
+</div>
+</div>
+
+<div class="copyright">
+Dikembangkan oleh <strong>Indra Adiguna, ST.</strong><br>
+© 2026 SIPENDIK. All rights reserved.
+</div>
+
+</div>
+</footer>
+
+<script>
+const MASTER_KEY = "sipendik_master_siswa";
+const STUDENT_KEY = "formonline_students";
+const FILE_DB_NAME = "sipendik_files_db";
+const FILE_STORE_NAME = "documents";
+const MAX_FILE_SIZE = 2 * 1024 * 1024;
+
+let masterStudents = [];
+let selectedStudent = null;
+
+function toggleMenu(){
+    document.getElementById("navLinks").classList.toggle("show");
+}
+
+function loadMasterStudents(){
+    try{
+        masterStudents = JSON.parse(
+            localStorage.getItem(MASTER_KEY)
+        ) || [];
+        if(!Array.isArray(masterStudents)){
+            masterStudents = [];
+        }
+    }catch(error){
+        masterStudents = [];
+    }
+
+    masterStudents = masterStudents
+        .filter(item => item && item.nama)
+        .map(item => ({
+            id: item.id || cryptoRandomId(),
+            nama: String(item.nama || "").trim(),
+            nisn: String(item.nisn || "").trim(),
+            kelas: String(item.kelas || "").trim()
+        }));
+}
+
+function cryptoRandomId(){
+    return Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+}
+
+function initials(name){
+    return String(name || "")
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0,2)
+        .map(x => x[0])
+        .join("")
+        .toUpperCase();
+}
+
+function renderSearchResults(query){
+    const box = document.getElementById("searchResults");
+    const value = query.trim().toUpperCase();
+
+    if(value.length < 2){
+        box.classList.remove("show");
+        box.innerHTML = "";
+        return;
+    }
+
+    const results = masterStudents
+        .filter(student =>
+            student.nama.toUpperCase().includes(value) ||
+            student.nisn.toUpperCase().includes(value) ||
+            student.kelas.toUpperCase().includes(value)
+        )
+        .slice(0, 30);
+
+    if(!results.length){
+        box.innerHTML = `
+            <div style="padding:14px;color:#7B8DA8;font-size:10px;text-align:center">
+                Data siswa tidak ditemukan.
+            </div>
+        `;
+        box.classList.add("show");
+        return;
+    }
+
+    box.innerHTML = results.map(student => `
+        <button type="button" class="student-option"
+            data-id="${escapeHTML(student.id)}">
+            <span class="option-avatar">${escapeHTML(initials(student.nama))}</span>
+            <span class="option-info">
+                <strong>${escapeHTML(student.nama)}</strong>
+                <span>NISN: ${escapeHTML(student.nisn)} &nbsp; • &nbsp; Kelas: ${escapeHTML(student.kelas)}</span>
+            </span>
+        </button>
+    `).join("");
+
+    box.classList.add("show");
+
+    box.querySelectorAll(".student-option").forEach(button => {
+        button.addEventListener("click", () => {
+            selectStudent(button.dataset.id);
+        });
+    });
+}
+
+function selectStudent(id){
+    const student = masterStudents.find(
+        item => String(item.id) === String(id)
+    );
+
+    if(!student) return;
+
+    selectedStudent = student;
+
+    document.getElementById("studentSearch").value = student.nama;
+    document.getElementById("nama").value = student.nama;
+    document.getElementById("nisn").value = student.nisn;
+    document.getElementById("kelas").value = student.kelas;
+
+    const badge = document.getElementById("selectedBadge");
+    badge.innerHTML =
+        "✓ Siswa dipilih: " +
+        escapeHTML(student.nama) +
+        " • " +
+        escapeHTML(student.kelas);
+    badge.classList.add("show");
+
+    document.getElementById("searchResults").classList.remove("show");
+}
+
+function escapeHTML(value){
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+function validatePDF(input, infoId){
+    const file = input.files[0];
+    const info = document.getElementById(infoId);
+
+    if(!file){
+        info.style.display = "none";
+        info.textContent = "";
+        return false;
+    }
+
+    const fileName = file.name.toLowerCase();
+
+    if(
+        file.type !== "application/pdf" &&
+        !fileName.endsWith(".pdf")
+    ){
+        alert("File harus berformat PDF.");
+        input.value = "";
+        info.style.display = "none";
+        return false;
+    }
+
+    if(file.size > MAX_FILE_SIZE){
+        alert("Ukuran file terlalu besar.\n\nMaksimal ukuran file adalah 2 MB.");
+        input.value = "";
+        info.style.display = "none";
+        return false;
+    }
+
+    const sizeMB =
+        (file.size / (1024 * 1024)).toFixed(2);
+
+    info.textContent =
+        "✓ " + file.name + " — " + sizeMB + " MB";
+    info.style.display = "block";
+
+    return true;
+}
+
+/* =========================================================
+   PENYIMPANAN FILE PDF — INDEXEDDB
+   File tidak disimpan ke localStorage karena ukuran localStorage
+   terbatas. Metadata tetap disimpan bersama data peserta didik,
+   sedangkan file PDF disimpan sebagai Blob di IndexedDB.
+========================================================= */
+
+function openFileDB(){
+    return new Promise((resolve,reject)=>{
+        const request = indexedDB.open(FILE_DB_NAME,1);
+
+        request.onupgradeneeded = function(event){
+            const db = event.target.result;
+            if(!db.objectStoreNames.contains(FILE_STORE_NAME)){
+                db.createObjectStore(FILE_STORE_NAME,{keyPath:"id"});
+            }
+        };
+
+        request.onsuccess = function(){
+            resolve(request.result);
+        };
+
+        request.onerror = function(){
+            reject(request.error || new Error("Gagal membuka penyimpanan file."));
+        };
+    });
+}
+
+function saveDocumentFile(submissionId,type,file){
+    return openFileDB().then(db=>new Promise((resolve,reject)=>{
+        const tx = db.transaction(FILE_STORE_NAME,"readwrite");
+        const store = tx.objectStore(FILE_STORE_NAME);
+
+        store.put({
+            id: submissionId + "_" + type,
+            submissionId,
+            type,
+            name:file.name,
+            size:file.size,
+            mime:file.type || "application/pdf",
+            blob:file,
+            createdAt:new Date().toISOString()
+        });
+
+        tx.oncomplete = ()=>{
+            db.close();
+            resolve(true);
+        };
+
+        tx.onerror = ()=>{
+            db.close();
+            reject(tx.error || new Error("Gagal menyimpan file."));
+        };
+    }));
+}
+
+function saveAllDocumentFiles(submissionId,files){
+    return Promise.all([
+        saveDocumentFile(submissionId,"kk",files.kk),
+        saveDocumentFile(submissionId,"akta",files.akta),
+        saveDocumentFile(submissionId,"ijazah",files.ijazah)
+    ]);
+}
+
+function getFormObject(){
+    const form = document.getElementById("studentForm");
+    const data = {};
+
+    new FormData(form).forEach((value,key) => {
+        if(!(value instanceof File)){
+            data[key] = String(value).trim();
+        }
+    });
+
+    const fileKK = document.getElementById("fileKK").files[0];
+    const fileAkta = document.getElementById("fileAkta").files[0];
+    const fileIjazah = document.getElementById("fileIjazah").files[0];
+
+    data["fileKKName"] = fileKK ? fileKK.name : "";
+    data["fileKKSize"] = fileKK ? fileKK.size : 0;
+    data["fileAktaName"] = fileAkta ? fileAkta.name : "";
+    data["fileAktaSize"] = fileAkta ? fileAkta.size : 0;
+    data["fileIjazahName"] = fileIjazah ? fileIjazah.name : "";
+    data["fileIjazahSize"] = fileIjazah ? fileIjazah.size : 0;
+
+    data.id = Date.now().toString();
+    data.status = "Lengkap";
+    data.tanggal = new Date().toISOString();
+
+    return data;
+}
+
+function onlyDigits(id){
+    const input = document.getElementById(id);
+    if(!input) return;
+    input.addEventListener("input", function(){
+        this.value = this.value.replace(/\D/g,"");
+    });
+}
+
+function uppercaseFields(){
+    document.querySelectorAll(
+        'input[type="text"]:not([readonly]), textarea'
+    ).forEach(input => {
+        input.addEventListener("input", function(){
+            this.value = this.value.toUpperCase();
+        });
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    loadMasterStudents();
+
+    const search = document.getElementById("studentSearch");
+
+    search.addEventListener("input", function(){
+        if(selectedStudent && this.value !== selectedStudent.nama){
+            selectedStudent = null;
+            document.getElementById("nama").value = "";
+            document.getElementById("nisn").value = "";
+            document.getElementById("kelas").value = "";
+            document.getElementById("selectedBadge").classList.remove("show");
+        }
+        renderSearchResults(this.value);
+    });
+
+    document.addEventListener("click", function(event){
+        const searchBox = document.querySelector(".search-box");
+        const results = document.getElementById("searchResults");
+
+        if(
+            !searchBox.contains(event.target) &&
+            !results.contains(event.target)
+        ){
+            results.classList.remove("show");
+        }
+    });
+
+    document.getElementById("fileKK").addEventListener(
+        "change",
+        function(){ validatePDF(this,"infoKK"); }
+    );
+
+    document.getElementById("fileAkta").addEventListener(
+        "change",
+        function(){ validatePDF(this,"infoAkta"); }
+    );
+
+    document.getElementById("fileIjazah").addEventListener(
+        "change",
+        function(){ validatePDF(this,"infoIjazah"); }
+    );
+
+    [
+        "nik","noKK","kodePos",
+        "hpSiswa","hpOrangTua",
+        "nikAyah","tahunAyah","hpAyah",
+        "nikIbu","tahunIbu","hpIbu"
+    ].forEach(onlyDigits);
+
+    uppercaseFields();
+
+    document.getElementById("studentForm").addEventListener(
+        "submit",
+        async function(event){
+
+            event.preventDefault();
+
+            if(!selectedStudent){
+                alert(
+                    "Silakan cari dan pilih nama siswa dari Master Data Siswa terlebih dahulu."
+                );
+                document.getElementById("studentSearch").focus();
+                return;
+            }
+
+            if(!this.checkValidity()){
+                this.reportValidity();
+                return;
+            }
+
+            const validKK =
+                validatePDF(
+                    document.getElementById("fileKK"),
+                    "infoKK"
+                );
+
+            const validAkta =
+                validatePDF(
+                    document.getElementById("fileAkta"),
+                    "infoAkta"
+                );
+
+            const validIjazah =
+                validatePDF(
+                    document.getElementById("fileIjazah"),
+                    "infoIjazah"
+                );
+
+            if(!validKK || !validAkta || !validIjazah){
+                alert("Pastikan ketiga dokumen sudah diunggah dalam format PDF dan maksimal 2 MB.");
+                return;
+            }
+
+            const data = getFormObject();
+
+            const fileKK = document.getElementById("fileKK").files[0];
+            const fileAkta = document.getElementById("fileAkta").files[0];
+            const fileIjazah = document.getElementById("fileIjazah").files[0];
+
+            try{
+                // Simpan data teks/angka ke localStorage dan PDF ke IndexedDB.
+                let students = [];
+
+                try{
+                    students = JSON.parse(localStorage.getItem(STUDENT_KEY)) || [];
+                    if(!Array.isArray(students)) students = [];
+                }catch(error){
+                    students = [];
+                }
+
+                students.push(data);
+
+                localStorage.setItem(
+                    STUDENT_KEY,
+                    JSON.stringify(students)
+                );
+
+                await saveAllDocumentFiles(data.id,{
+                    kk:fileKK,
+                    akta:fileAkta,
+                    ijazah:fileIjazah
+                });
+            }catch(error){
+                console.error("Gagal menyimpan data/dokumen:",error);
+                alert(
+                    "Data belum berhasil disimpan sepenuhnya.\n\n" +
+                    "Pastikan browser mengizinkan penyimpanan situs dan coba lagi.\n\n" +
+                    "Detail: " + (error.message || error)
+                );
+                return;
+            }
+
+            document.getElementById("successBox").classList.add("show");
+
+            window.scrollTo({
+                top:0,
+                behavior:"smooth"
+            });
+
+            alert(
+                "Data peserta didik berhasil disimpan."
+            );
+
+            this.reset();
+            selectedStudent = null;
+
+            document.getElementById("nama").value = "";
+            document.getElementById("nisn").value = "";
+            document.getElementById("kelas").value = "";
+            document.getElementById("selectedBadge").classList.remove("show");
+
+            ["infoKK","infoAkta","infoIjazah"].forEach(id => {
+                document.getElementById(id).style.display = "none";
+                document.getElementById(id).textContent = "";
+            });
+        }
+    );
+
+    document.getElementById("studentForm").addEventListener(
+        "reset",
+        function(){
+            setTimeout(() => {
+                selectedStudent = null;
+                document.getElementById("searchResults").classList.remove("show");
+                document.getElementById("selectedBadge").classList.remove("show");
+            },0);
+        }
+    );
+});
+</script>
+
+</body>
+</html>

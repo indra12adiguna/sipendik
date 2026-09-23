@@ -1,0 +1,4594 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIPENDIK | Admin</title>
+
+<style>
+:root{
+    --primary:#315BDB;
+    --primary-dark:#2447B8;
+    --indigo:#4F46E5;
+    --bg:#F5F7FB;
+    --white:#FFFFFF;
+    --text:#172554;
+    --muted:#64748B;
+    --border:#E2E8F0;
+    --success:#16A34A;
+    --warning:#F59E0B;
+    --danger:#DC2626;
+    --shadow:0 10px 35px rgba(15,23,42,.08);
+    --radius:18px;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+.login-page{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    background:
+        radial-gradient(circle at top left,rgba(49,91,219,.13),transparent 35%),
+        radial-gradient(circle at bottom right,rgba(79,70,229,.12),transparent 35%),
+        #F5F7FB;
+}
+
+.login-card{
+    width:100%;
+    max-width:440px;
+    background:#fff;
+    border:1px solid rgba(226,232,240,.8);
+    border-radius:28px;
+    padding:40px;
+    box-shadow:0 25px 70px rgba(15,23,42,.12);
+}
+
+.login-brand{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.login-icon{
+    width:72px;
+    height:72px;
+    margin:0 auto 18px;
+}
+
+.login-icon svg{
+    width:100%;
+    height:100%;
+}
+
+.login-brand h1{
+    font-size:28px;
+    font-weight:900;
+    letter-spacing:-1px;
+    color:#172554;
+}
+
+.login-brand p{
+    margin-top:7px;
+    color:#64748B;
+    font-size:14px;
+}
+
+.form-group{
+    margin-bottom:18px;
+}
+
+.form-group label{
+    display:block;
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:8px;
+    color:#334155;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    border:1px solid var(--border);
+    background:#F8FAFC;
+    border-radius:12px;
+    padding:13px 14px;
+    outline:none;
+    font-size:14px;
+    color:#172554;
+    transition:.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:var(--primary);
+    background:#fff;
+    box-shadow:0 0 0 4px rgba(49,91,219,.10);
+}
+
+.login-btn{
+    width:100%;
+    border:0;
+    border-radius:12px;
+    padding:14px;
+    background:linear-gradient(135deg,var(--primary),var(--indigo));
+    color:#fff;
+    font-weight:800;
+    cursor:pointer;
+    font-size:14px;
+    box-shadow:0 10px 25px rgba(49,91,219,.22);
+    transition:.2s;
+}
+
+.login-btn:hover{
+    transform:translateY(-1px);
+}
+
+.login-error{
+    display:none;
+    background:#FEF2F2;
+    color:#B91C1C;
+    border:1px solid #FECACA;
+    padding:12px 14px;
+    border-radius:10px;
+    font-size:13px;
+    margin-bottom:16px;
+}
+
+/* =========================================================
+   ADMIN LAYOUT
+========================================================= */
+
+.admin-page{
+    display:none;
+    min-height:100vh;
+}
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:270px;
+    background:#fff;
+    border-right:1px solid var(--border);
+    padding:24px 16px;
+    z-index:100;
+    overflow-y:auto;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:8px 10px 26px;
+}
+
+.brand-logo{
+    width:46px;
+    height:46px;
+    flex:none;
+}
+
+.brand-logo svg{
+    width:100%;
+    height:100%;
+}
+
+.brand-text strong{
+    display:block;
+    font-size:20px;
+    font-weight:900;
+    color:#172554;
+}
+
+.brand-text span{
+    display:block;
+    font-size:10px;
+    color:#64748B;
+    line-height:1.3;
+    margin-top:3px;
+}
+
+.menu-title{
+    font-size:10px;
+    font-weight:900;
+    color:#94A3B8;
+    letter-spacing:1px;
+    padding:14px 12px 8px;
+}
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.menu button{
+    width:100%;
+    border:0;
+    background:transparent;
+    text-align:left;
+    padding:12px 13px;
+    border-radius:11px;
+    color:#64748B;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:.2s;
+}
+
+.menu button:hover{
+    background:#F1F5F9;
+    color:var(--primary);
+}
+
+.menu button.active{
+    background:linear-gradient(135deg,#EEF3FF,#EEF2FF);
+    color:var(--primary);
+}
+
+.menu-icon{
+    width:20px;
+    text-align:center;
+    font-size:16px;
+}
+
+.logout-btn{
+    margin-top:25px !important;
+    color:#DC2626 !important;
+}
+
+.main{
+    margin-left:270px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:74px;
+    background:#fff;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    position:sticky;
+    top:0;
+    z-index:50;
+}
+
+.topbar-title h2{
+    font-size:20px;
+    font-weight:900;
+    color:#172554;
+}
+
+.topbar-title p{
+    font-size:12px;
+    color:#64748B;
+    margin-top:3px;
+}
+
+.admin-badge{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:8px 13px;
+    background:#F8FAFC;
+    border:1px solid var(--border);
+    border-radius:999px;
+    font-size:12px;
+    font-weight:800;
+    color:#334155;
+}
+
+.admin-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#22C55E;
+}
+
+.content{
+    padding:30px;
+}
+
+.section{
+    display:none;
+}
+
+.section.active{
+    display:block;
+}
+
+/* =========================================================
+   COMMON
+========================================================= */
+
+.page-heading{
+    margin-bottom:24px;
+}
+
+.page-heading h1{
+    font-size:28px;
+    font-weight:900;
+    letter-spacing:-.8px;
+    color:#172554;
+}
+
+.page-heading p{
+    color:#64748B;
+    margin-top:6px;
+    font-size:14px;
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:20px;
+    box-shadow:var(--shadow);
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-label{
+    font-size:12px;
+    color:#64748B;
+    font-weight:700;
+}
+
+.stat-icon{
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:11px;
+    background:#EEF3FF;
+    color:var(--primary);
+    font-size:17px;
+}
+
+.stat-value{
+    font-size:30px;
+    font-weight:900;
+    color:#172554;
+    margin-top:12px;
+}
+
+.card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+}
+
+.card-header{
+    padding:20px 22px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.card-header h3{
+    font-size:16px;
+    font-weight:900;
+    color:#172554;
+}
+
+.card-header p{
+    color:#64748B;
+    font-size:12px;
+    margin-top:4px;
+}
+
+.card-body{
+    padding:22px;
+}
+
+.btn{
+    border:0;
+    border-radius:10px;
+    padding:11px 15px;
+    font-size:12px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.2s;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+}
+
+.btn-primary{
+    background:linear-gradient(135deg,var(--primary),var(--indigo));
+    color:#fff;
+    box-shadow:0 7px 18px rgba(49,91,219,.18);
+}
+
+.btn-secondary{
+    background:#F1F5F9;
+    color:#334155;
+}
+
+.btn-success{
+    background:#ECFDF5;
+    color:#15803D;
+}
+
+.btn-danger{
+    background:#FEF2F2;
+    color:#B91C1C;
+}
+
+.btn-warning{
+    background:#FFFBEB;
+    color:#B45309;
+}
+
+.button-group{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.notice{
+    padding:15px 17px;
+    border-radius:12px;
+    background:#EFF6FF;
+    border:1px solid #BFDBFE;
+    color:#1E40AF;
+    font-size:12px;
+    line-height:1.6;
+    margin-bottom:18px;
+}
+
+.notice strong{
+    display:block;
+    margin-bottom:4px;
+}
+
+.empty{
+    padding:40px 20px;
+    text-align:center;
+    color:#94A3B8;
+    font-size:13px;
+}
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.progress-box{
+    margin-top:20px;
+}
+
+.progress-info{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+    font-size:12px;
+    font-weight:800;
+}
+
+.progress-bar{
+    height:12px;
+    border-radius:999px;
+    background:#E2E8F0;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--primary),var(--indigo));
+    border-radius:999px;
+    width:0;
+    transition:.4s;
+}
+
+.target-form{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+.target-form input{
+    flex:1;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:11px;
+    outline:none;
+}
+
+/* =========================================================
+   MASTER DATA
+========================================================= */
+
+.master-grid{
+    display:grid;
+    grid-template-columns:360px 1fr;
+    gap:20px;
+    align-items:start;
+}
+
+.manual-form .form-group{
+    margin-bottom:15px;
+}
+
+.manual-form input,
+.manual-form select{
+    width:100%;
+    padding:12px;
+    border:1px solid var(--border);
+    border-radius:11px;
+    background:#F8FAFC;
+    outline:none;
+}
+
+.manual-form input:focus,
+.manual-form select:focus{
+    border-color:var(--primary);
+    background:#fff;
+    box-shadow:0 0 0 4px rgba(49,91,219,.08);
+}
+
+.required{
+    color:#DC2626;
+}
+
+.file-box{
+    border:2px dashed #CBD5E1;
+    border-radius:13px;
+    padding:18px;
+    text-align:center;
+    background:#F8FAFC;
+}
+
+.file-box input{
+    width:100%;
+}
+
+.import-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:18px;
+}
+
+.search-box{
+    margin-bottom:15px;
+}
+
+.search-box input{
+    width:100%;
+    border:1px solid var(--border);
+    padding:12px 14px;
+    border-radius:11px;
+    outline:none;
+}
+
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:680px;
+}
+
+th{
+    text-align:left;
+    padding:13px 14px;
+    font-size:11px;
+    color:#64748B;
+    text-transform:uppercase;
+    letter-spacing:.4px;
+    background:#F8FAFC;
+    border-bottom:1px solid var(--border);
+}
+
+td{
+    padding:13px 14px;
+    border-bottom:1px solid #F1F5F9;
+    font-size:12px;
+    color:#334155;
+}
+
+td strong{
+    color:#172554;
+}
+
+.class-badge{
+    display:inline-flex;
+    padding:5px 9px;
+    border-radius:999px;
+    background:#EEF2FF;
+    color:#4338CA;
+    font-size:10px;
+    font-weight:900;
+}
+
+/* =========================================================
+   STUDENT DATA / LATENESS
+========================================================= */
+
+.toolbar{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+}
+
+.toolbar input,
+.toolbar select{
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:11px 12px;
+    outline:none;
+    background:#fff;
+}
+
+.toolbar input{
+    flex:1;
+    min-width:200px;
+}
+
+.status-badge{
+    display:inline-flex;
+    padding:5px 9px;
+    border-radius:999px;
+    background:#ECFDF5;
+    color:#15803D;
+    font-size:10px;
+    font-weight:900;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.55);
+    z-index:500;
+    padding:20px;
+    align-items:center;
+    justify-content:center;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-card{
+    width:100%;
+    max-width:620px;
+    max-height:90vh;
+    overflow:auto;
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 30px 80px rgba(0,0,0,.2);
+}
+
+.modal-header{
+    padding:20px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.modal-header h3{
+    font-size:17px;
+    font-weight:900;
+}
+
+.close-modal{
+    border:0;
+    background:#F1F5F9;
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    cursor:pointer;
+}
+
+.modal-body{
+    padding:20px;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#172554;
+    color:#fff;
+    padding:13px 17px;
+    border-radius:11px;
+    font-size:12px;
+    font-weight:700;
+    box-shadow:0 15px 35px rgba(15,23,42,.2);
+    transform:translateY(100px);
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    z-index:999;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+.mobile-menu{
+    display:none;
+    border:0;
+    background:#F1F5F9;
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+@media(max-width:1100px){
+
+    .sidebar{
+        width:235px;
+    }
+
+    .main{
+        margin-left:235px;
+    }
+
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .master-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.25s;
+        width:270px;
+        box-shadow:10px 0 30px rgba(0,0,0,.1);
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .topbar{
+        padding:0 16px;
+    }
+
+    .content{
+        padding:20px 15px;
+    }
+
+    .stats-grid{
+        grid-template-columns:1fr 1fr;
+        gap:12px;
+    }
+
+    .stat-card{
+        padding:16px;
+    }
+
+    .stat-value{
+        font-size:24px;
+    }
+
+    .admin-badge{
+        display:none;
+    }
+}
+
+@media(max-width:550px){
+
+    .login-card{
+        padding:28px 20px;
+        border-radius:20px;
+    }
+
+    .page-heading h1{
+        font-size:23px;
+    }
+
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+
+    .card-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .target-form{
+        flex-direction:column;
+    }
+
+    .button-group{
+        width:100%;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+    .import-actions .btn{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     LOGIN
+========================================================= -->
+
+<div class="login-page" id="loginPage">
+
+    <div class="login-card">
+
+        <div class="login-brand">
+
+            <div class="login-icon">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="loginGradient"
+                            x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#315BDB"/>
+                            <stop offset="55%" stop-color="#3F5FE0"/>
+                            <stop offset="100%" stop-color="#4F46E5"/>
+                        </linearGradient>
+                    </defs>
+
+                    <rect
+                        x="6"
+                        y="6"
+                        width="88"
+                        height="88"
+                        rx="27"
+                        fill="url(#loginGradient)"
+                    />
+
+                    <circle
+                        cx="75"
+                        cy="25"
+                        r="17"
+                        fill="white"
+                        opacity=".08"
+                    />
+
+                    <circle
+                        cx="24"
+                        cy="77"
+                        r="13"
+                        fill="white"
+                        opacity=".06"
+                    />
+
+                    <text
+                        x="50"
+                        y="59"
+                        text-anchor="middle"
+                        font-family="Arial"
+                        font-size="30"
+                        font-weight="900"
+                        fill="white"
+                    >SIP</text>
+
+                    <rect
+                        x="28"
+                        y="68"
+                        width="44"
+                        height="4"
+                        rx="2"
+                        fill="white"
+                        opacity=".9"
+                    />
+                </svg>
+            </div>
+
+            <h1>Login Admin</h1>
+            <p>SIPENDIK — Sistem Informasi Pendataan Peserta Didik</p>
+
+        </div>
+
+        <div class="login-error" id="loginError">
+            Username atau password tidak sesuai.
+        </div>
+
+        <form id="loginForm">
+
+            <div class="form-group">
+                <label>Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    autocomplete="username"
+                    placeholder="Masukkan username"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    autocomplete="current-password"
+                    placeholder="Masukkan password"
+                    required
+                >
+            </div>
+
+            <button
+                type="submit"
+                class="login-btn"
+            >
+                Masuk ke Dashboard
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     ADMIN PAGE
+========================================================= -->
+
+<div class="admin-page" id="adminPage">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+
+                    <defs>
+                        <linearGradient id="brandGradient"
+                            x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#315BDB"/>
+                            <stop offset="55%" stop-color="#3F5FE0"/>
+                            <stop offset="100%" stop-color="#4F46E5"/>
+                        </linearGradient>
+                    </defs>
+
+                    <rect
+                        x="6"
+                        y="6"
+                        width="88"
+                        height="88"
+                        rx="27"
+                        fill="url(#brandGradient)"
+                    />
+
+                    <circle
+                        cx="75"
+                        cy="25"
+                        r="17"
+                        fill="white"
+                        opacity=".08"
+                    />
+
+                    <circle
+                        cx="24"
+                        cy="77"
+                        r="13"
+                        fill="white"
+                        opacity=".06"
+                    />
+
+                    <text
+                        x="50"
+                        y="59"
+                        text-anchor="middle"
+                        font-family="Arial"
+                        font-size="30"
+                        font-weight="900"
+                        fill="white"
+                    >SIP</text>
+
+                    <rect
+                        x="28"
+                        y="68"
+                        width="44"
+                        height="4"
+                        rx="2"
+                        fill="white"
+                        opacity=".9"
+                    />
+
+                </svg>
+
+            </div>
+
+            <div class="brand-text">
+                <strong>SIPENDIK</strong>
+                <span>Sistem Informasi Pendataan Peserta Didik</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            MENU UTAMA
+        </div>
+
+        <div class="menu">
+
+            <button
+                class="menu-btn active"
+                data-section="dashboard"
+            >
+                <span class="menu-icon">⌂</span>
+                Dashboard
+            </button>
+
+            <button
+                class="menu-btn"
+                data-section="master"
+            >
+                <span class="menu-icon">👥</span>
+                Master Data Siswa
+            </button>
+
+            <button
+                class="menu-btn"
+                data-section="students"
+            >
+                <span class="menu-icon">📋</span>
+                Data Peserta Didik
+            </button>
+
+            <button
+                class="menu-btn"
+                data-section="lateness"
+            >
+                <span class="menu-icon">⏰</span>
+                Data Keterlambatan
+            </button>
+
+        </div>
+
+
+        <div class="menu-title">
+            AKUN
+        </div>
+
+        <div class="menu">
+
+            <button
+                class="logout-btn"
+                id="logoutBtn"
+            >
+                <span class="menu-icon">↪</span>
+                Keluar
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <button
+                class="mobile-menu"
+                id="mobileMenu"
+            >
+                ☰
+            </button>
+
+            <div class="topbar-title">
+
+                <h2 id="topTitle">
+                    Dashboard
+                </h2>
+
+                <p>
+                    Panel administrasi SIPENDIK
+                </p>
+
+            </div>
+
+            <div class="admin-badge">
+
+                <span class="admin-dot"></span>
+
+                Administrator
+
+            </div>
+
+        </header>
+
+
+        <div class="content">
+
+
+            <!-- =================================================
+                 DASHBOARD
+            ================================================= -->
+
+            <section
+                class="section active"
+                id="section-dashboard"
+            >
+
+                <div class="page-heading">
+
+                    <h1>Dashboard</h1>
+
+                    <p>
+                        Ringkasan data SIPENDIK.
+                    </p>
+
+                </div>
+
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <span class="stat-label">
+                                TARGET SISWA
+                            </span>
+
+                            <span class="stat-icon">
+                                🎯
+                            </span>
+
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="dashTarget"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <span class="stat-label">
+                                SUDAH MENGISI
+                            </span>
+
+                            <span class="stat-icon">
+                                ✓
+                            </span>
+
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="dashFilled"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <span class="stat-label">
+                                BELUM MENGISI
+                            </span>
+
+                            <span class="stat-icon">
+                                !
+                            </span>
+
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="dashRemaining"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <span class="stat-label">
+                                MASTER SISWA
+                            </span>
+
+                            <span class="stat-icon">
+                                👥
+                            </span>
+
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="dashMaster"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h3>Progress Pendataan</h3>
+
+                            <p>
+                                Atur target jumlah siswa yang harus mengisi formulir.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-body">
+
+                        <div class="progress-info">
+
+                            <span>
+                                Progress
+                            </span>
+
+                            <span id="dashProgressText">
+                                0%
+                            </span>
+
+                        </div>
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress-fill"
+                                id="dashProgressBar"
+                            ></div>
+
+                        </div>
+
+
+                        <div class="target-form">
+
+                            <input
+                                type="number"
+                                id="targetInput"
+                                min="0"
+                                placeholder="Masukkan target siswa"
+                            >
+
+                            <button
+                                class="btn btn-primary"
+                                id="saveTarget"
+                            >
+                                Simpan Target
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 MASTER DATA SISWA
+            ================================================= -->
+
+            <section
+                class="section"
+                id="section-master"
+            >
+
+                <div class="page-heading">
+
+                    <h1>Master Data Siswa</h1>
+
+                    <p>
+                        Kelola daftar siswa yang dapat dipilih pada formulir peserta didik dan data keterlambatan.
+                    </p>
+
+                </div>
+
+
+                <div class="master-grid">
+
+
+                    <!-- INPUT MANUAL -->
+
+                    <div class="card manual-form">
+
+                        <div class="card-header">
+
+                            <div>
+
+                                <h3>Input Data Siswa Manual</h3>
+
+                                <p>
+                                    Tambahkan siswa satu per satu.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="card-body">
+
+                            <div class="notice">
+
+                                <strong>Input Manual</strong>
+
+                                Gunakan menu ini apabila ada siswa yang tidak dapat dimasukkan melalui import CSV.
+
+                            </div>
+
+
+                            <form id="manualStudentForm">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Nama Lengkap
+                                        <span class="required">*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="manualNama"
+                                        placeholder="NAMA LENGKAP SISWA"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label>
+                                        NISN
+                                        <span class="required">*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="manualNisn"
+                                        inputmode="numeric"
+                                        maxlength="20"
+                                        placeholder="NISN"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Kelas
+                                        <span class="required">*</span>
+                                    </label>
+
+                                    <select
+                                        id="manualKelas"
+                                        required
+                                    >
+
+                                        <option value="">
+                                            Pilih Kelas
+                                        </option>
+
+                                        <option>VII A</option>
+                                        <option>VII B</option>
+                                        <option>VII C</option>
+                                        <option>VII D</option>
+                                        <option>VII E</option>
+
+                                        <option>VIII A</option>
+                                        <option>VIII B</option>
+                                        <option>VIII C</option>
+                                        <option>VIII D</option>
+                                        <option>VIII E</option>
+
+                                        <option>IX A</option>
+                                        <option>IX B</option>
+                                        <option>IX C</option>
+                                        <option>IX D</option>
+                                        <option>IX E</option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary"
+                                    style="width:100%;"
+                                >
+                                    + Tambahkan Siswa
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- IMPORT -->
+
+                    <div class="card">
+
+                        <div class="card-header">
+
+                            <div>
+
+                                <h3>Import & Export Data Siswa</h3>
+
+                                <p>
+                                    Kelola data siswa dalam jumlah besar menggunakan CSV.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="card-body">
+
+                            <div class="notice">
+
+                                <strong>Format CSV</strong>
+
+                                Urutan kolom harus:
+                                <b>A = No, B = Nama, C = NISN, D = Kelas</b>.
+                                NISN akan dibaca sebagai teks sehingga angka 0 di depan tetap dipertahankan.
+
+                            </div>
+
+
+                            <div class="import-actions">
+
+                                <button
+                                    class="btn btn-secondary"
+                                    id="downloadTemplate"
+                                >
+                                    ↓ Download Template
+                                </button>
+
+                                <button
+                                    class="btn btn-success"
+                                    id="exportMaster"
+                                >
+                                    ↑ Export Data Siswa
+                                </button>
+
+                                <button
+                                    class="btn btn-danger"
+                                    id="resetMaster"
+                                    type="button"
+                                    title="Hapus seluruh data pada Master Data Siswa"
+                                >
+                                    ↻ Reset Data Siswa
+                                </button>
+
+                                <label
+                                    class="btn btn-primary"
+                                    style="cursor:pointer;"
+                                >
+
+                                    + Import CSV
+
+                                    <input
+                                        type="file"
+                                        id="importFile"
+                                        accept=".csv,text/csv"
+                                        hidden
+                                    >
+
+                                </label>
+
+                            </div>
+
+
+                            <div
+                                id="importResult"
+                                style="display:none;"
+                                class="notice"
+                            ></div>
+
+
+                            <div class="search-box">
+
+                                <input
+                                    type="text"
+                                    id="masterSearch"
+                                    placeholder="Cari nama, NISN, atau kelas..."
+                                >
+
+                            </div>
+
+
+                            <div class="table-wrapper">
+
+                                <table>
+
+                                    <thead>
+
+                                        <tr>
+
+                                            <th>No</th>
+                                            <th>Nama</th>
+                                            <th>NISN</th>
+                                            <th>Kelas</th>
+                                            <th>Aksi</th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody id="masterTableBody"></tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 DATA PESERTA DIDIK
+            ================================================= -->
+
+            <section
+                class="section"
+                id="section-students"
+            >
+
+                <div class="page-heading">
+
+                    <h1>Data Peserta Didik</h1>
+
+                    <p>
+                        Data peserta didik yang telah mengisi formulir.
+                    </p>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>Daftar Peserta Didik</h3>
+
+                            <p>
+                                Data yang tersimpan dari formulir online.
+                            </p>
+
+                        </div>
+
+
+                        <div class="button-group">
+
+                            <button
+                                class="btn btn-success"
+                                id="exportStudents"
+                            >
+                                ↑ Export CSV
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-body">
+
+                        <div class="toolbar">
+
+                            <input
+                                type="text"
+                                id="studentSearch"
+                                placeholder="Cari nama atau NISN..."
+                            >
+
+                            <button
+                                class="btn btn-secondary"
+                                id="printStudents"
+                            >
+                                🖨 Cetak
+                            </button>
+
+                        </div>
+
+
+                        <div class="table-wrapper">
+
+                            <table>
+
+                                <thead>
+
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>NISN</th>
+                                        <th>Kelas</th>
+                                        <th>Status</th>
+                                        <th>Tanggal</th>
+                                        <th>Aksi</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody id="studentTableBody"></tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 KETERLAMBATAN
+            ================================================= -->
+
+            <section
+                class="section"
+                id="section-lateness"
+            >
+
+                <div class="page-heading">
+
+                    <h1>Data Keterlambatan</h1>
+
+                    <p>
+                        Monitoring data keterlambatan peserta didik.
+                    </p>
+
+                </div>
+
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="stat-label">
+                            TOTAL
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="lateTotal"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-label">
+                            HARI INI
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="lateToday"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-label">
+                            BULAN INI
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="lateMonth"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-label">
+                            RATA-RATA MENIT
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="lateAverage"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>Riwayat Keterlambatan</h3>
+
+                            <p>
+                                Data yang diinput melalui halaman keterlambatan.
+                            </p>
+
+                        </div>
+
+                        <button
+                            class="btn btn-success"
+                            id="exportLateness"
+                        >
+                            ↑ Export CSV
+                        </button>
+
+                    </div>
+
+
+                    <div class="card-body">
+
+                        <div class="toolbar">
+
+                            <input
+                                type="text"
+                                id="lateSearch"
+                                placeholder="Cari nama, NISN, atau kelas..."
+                            >
+
+                            <input
+                                type="date"
+                                id="lateDateFilter"
+                            >
+
+                            <select id="lateReasonFilter">
+
+                                <option value="">
+                                    Semua Alasan
+                                </option>
+
+                                <option>BANGUN KESIANGAN</option>
+                                <option>KETIDURAN</option>
+                                <option>KENDALA KENDARAAN</option>
+                                <option>KENDALA PERJALANAN</option>
+                                <option>TERKENDALA CUACA</option>
+                                <option>KEPERLUAN KELUARGA</option>
+                                <option>KONDISI KESEHATAN</option>
+                                <option>ALASAN LAINNYA</option>
+
+                            </select>
+
+                            <button
+                                class="btn btn-secondary"
+                                id="resetLateFilter"
+                            >
+                                Reset
+                            </button>
+
+                        </div>
+
+
+                        <div class="table-wrapper">
+
+                            <table>
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>NISN</th>
+                                        <th>Kelas</th>
+                                        <th>Tanggal</th>
+                                        <th>Jam Datang</th>
+                                        <th>Durasi</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody id="lateTableBody"></tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     DETAIL MODAL
+========================================================= -->
+
+<div
+    class="modal"
+    id="detailModal"
+>
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <h3 id="modalTitle">
+                Detail Data
+            </h3>
+
+            <button
+                class="close-modal"
+                id="closeModal"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div
+            class="modal-body"
+            id="modalBody"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+/* =========================================================
+   KONFIGURASI
+========================================================= */
+
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "admin123";
+
+const KEY_TARGET = "formonline_target_siswa";
+const KEY_STUDENTS = "formonline_students";
+const KEY_MASTER = "sipendik_master_siswa";
+const KEY_LATENESS = "sipendik_keterlambatan";
+const KEY_LOGIN = "formonline_admin_login";
+const FILE_DB_NAME = "sipendik_files_db";
+const FILE_STORE_NAME = "documents";
+
+
+/* =========================================================
+   HELPER
+========================================================= */
+
+function getJSON(key, fallback = []){
+
+    try{
+
+        const data = localStorage.getItem(key);
+
+        if(!data){
+            return fallback;
+        }
+
+        const parsed = JSON.parse(data);
+
+        return parsed;
+
+    }catch(error){
+
+        console.error(error);
+
+        return fallback;
+    }
+}
+
+
+function saveJSON(key, data){
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(data)
+    );
+}
+
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(()=>{
+        toast.classList.remove("show");
+    },3000);
+}
+
+
+function normalizeText(value){
+
+    return String(value ?? "")
+        .replace(/^\uFEFF/,"")
+        .trim();
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+function checkLogin(){
+
+    const logged =
+        localStorage.getItem(KEY_LOGIN);
+
+    if(logged === "true"){
+
+        document.getElementById("loginPage").style.display =
+            "none";
+
+        document.getElementById("adminPage").style.display =
+            "block";
+
+        loadAll();
+
+    }else{
+
+        document.getElementById("loginPage").style.display =
+            "flex";
+
+        document.getElementById("adminPage").style.display =
+            "none";
+    }
+}
+
+
+document
+.getElementById("loginForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const username =
+        document.getElementById("username")
+        .value
+        .trim();
+
+    const password =
+        document.getElementById("password")
+        .value;
+
+    if(
+        username === ADMIN_USER &&
+        password === ADMIN_PASS
+    ){
+
+        localStorage.setItem(
+            KEY_LOGIN,
+            "true"
+        );
+
+        document.getElementById("loginError")
+            .style.display = "none";
+
+        checkLogin();
+
+    }else{
+
+        document.getElementById("loginError")
+            .style.display = "block";
+    }
+
+});
+
+
+document
+.getElementById("logoutBtn")
+.addEventListener("click",function(){
+
+    if(confirm("Apakah Anda yakin ingin keluar dari admin?")){
+
+        localStorage.removeItem(KEY_LOGIN);
+
+        location.reload();
+
+    }
+
+});
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+const menuButtons =
+    document.querySelectorAll(".menu-btn");
+
+const sections =
+    document.querySelectorAll(".section");
+
+const topTitle =
+    document.getElementById("topTitle");
+
+
+const sectionTitles = {
+
+    dashboard:"Dashboard",
+
+    master:"Master Data Siswa",
+
+    students:"Data Peserta Didik",
+
+    lateness:"Data Keterlambatan"
+
+};
+
+
+menuButtons.forEach(button=>{
+
+    button.addEventListener("click",()=>{
+
+        const target =
+            button.dataset.section;
+
+        menuButtons.forEach(btn=>{
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        sections.forEach(section=>{
+            section.classList.remove("active");
+        });
+
+        const targetSection =
+            document.getElementById(
+                "section-" + target
+            );
+
+        if(targetSection){
+            targetSection.classList.add("active");
+        }
+
+        topTitle.textContent =
+            sectionTitles[target];
+
+        document
+            .getElementById("sidebar")
+            .classList.remove("open");
+
+        if(target === "master"){
+            renderMasterTable();
+        }
+
+        if(target === "students"){
+            renderStudents();
+        }
+
+        if(target === "lateness"){
+            renderLateness();
+        }
+
+    });
+
+});
+
+
+document
+.getElementById("mobileMenu")
+.addEventListener("click",()=>{
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+});
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function updateDashboard(){
+
+    const target =
+        Number(
+            localStorage.getItem(KEY_TARGET) || 0
+        );
+
+    const students =
+        getJSON(KEY_STUDENTS,[]);
+
+    const master =
+        getJSON(KEY_MASTER,[]);
+
+    const filled =
+        students.length;
+
+    const remaining =
+        Math.max(target - filled,0);
+
+    const progress =
+        target > 0
+        ? Math.min(
+            100,
+            Math.round(
+                (filled / target) * 100
+            )
+        )
+        : 0;
+
+
+    document.getElementById("dashTarget")
+        .textContent = target;
+
+    document.getElementById("dashFilled")
+        .textContent = filled;
+
+    document.getElementById("dashRemaining")
+        .textContent = remaining;
+
+    document.getElementById("dashMaster")
+        .textContent = master.length;
+
+    document.getElementById("dashProgressText")
+        .textContent = progress + "%";
+
+    document.getElementById("dashProgressBar")
+        .style.width = progress + "%";
+
+    document.getElementById("targetInput")
+        .value = target || "";
+
+}
+
+
+document
+.getElementById("saveTarget")
+.addEventListener("click",function(){
+
+    const value =
+        Number(
+            document.getElementById("targetInput")
+            .value
+        );
+
+    if(!Number.isFinite(value) || value < 0){
+
+        alert("Masukkan target siswa yang valid.");
+
+        return;
+    }
+
+    localStorage.setItem(
+        KEY_TARGET,
+        String(Math.floor(value))
+    );
+
+    updateDashboard();
+
+    showToast("Target siswa berhasil disimpan.");
+
+});
+
+
+/* =========================================================
+   MANUAL INPUT MASTER SISWA
+========================================================= */
+
+document
+.getElementById("manualNama")
+.addEventListener("input",function(){
+
+    this.value =
+        this.value.toUpperCase();
+
+});
+
+
+document
+.getElementById("manualNisn")
+.addEventListener("input",function(){
+
+    this.value =
+        this.value.replace(/\D/g,"");
+
+});
+
+
+document
+.getElementById("manualStudentForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const nama =
+        normalizeText(
+            document.getElementById("manualNama").value
+        ).toUpperCase();
+
+    const nisn =
+        normalizeText(
+            document.getElementById("manualNisn").value
+        );
+
+    const kelas =
+        normalizeText(
+            document.getElementById("manualKelas").value
+        ).toUpperCase();
+
+
+    if(!nama || !nisn || !kelas){
+
+        alert(
+            "Nama, NISN, dan Kelas wajib diisi."
+        );
+
+        return;
+    }
+
+
+    if(!/^\d+$/.test(nisn)){
+
+        alert(
+            "NISN hanya boleh berisi angka."
+        );
+
+        return;
+    }
+
+
+    let master =
+        getJSON(KEY_MASTER,[]);
+
+
+    const duplicateNISN =
+        master.some(item =>
+            String(item.nisn) === String(nisn)
+        );
+
+
+    if(duplicateNISN){
+
+        alert(
+            "NISN tersebut sudah terdaftar di Master Data Siswa."
+        );
+
+        return;
+    }
+
+
+    const duplicateName =
+        master.some(item =>
+            String(item.nama).toUpperCase() === nama &&
+            String(item.kelas).toUpperCase() === kelas
+        );
+
+
+    if(duplicateName){
+
+        alert(
+            "Nama siswa dengan kelas tersebut sudah terdaftar."
+        );
+
+        return;
+    }
+
+
+    const newStudent = {
+
+        id:
+            "S-" +
+            Date.now() +
+            "-" +
+            Math.random()
+                .toString(36)
+                .substring(2,7),
+
+        nama:nama,
+
+        nisn:nisn,
+
+        kelas:kelas
+
+    };
+
+
+    master.push(newStudent);
+
+    saveJSON(
+        KEY_MASTER,
+        master
+    );
+
+
+    this.reset();
+
+
+    renderMasterTable();
+
+    updateDashboard();
+
+
+    showToast(
+        "Data siswa berhasil ditambahkan."
+    );
+
+});
+
+
+/* =========================================================
+   CSV PARSER
+========================================================= */
+
+function detectDelimiter(text){
+
+    const firstLine =
+        text
+        .replace(/^\uFEFF/,"")
+        .split(/\r?\n/)
+        .find(line => line.trim() !== "");
+
+    if(!firstLine){
+        return ",";
+    }
+
+
+    const candidates = [
+        ",",
+        ";",
+        "\t"
+    ];
+
+
+    let best = ",";
+    let bestCount = 0;
+
+
+    candidates.forEach(delimiter=>{
+
+        let count = 0;
+        let insideQuotes = false;
+
+        for(let i=0;i<firstLine.length;i++){
+
+            const char =
+                firstLine[i];
+
+            if(char === '"'){
+                insideQuotes = !insideQuotes;
+            }
+
+            if(
+                char === delimiter &&
+                !insideQuotes
+            ){
+                count++;
+            }
+        }
+
+        if(count > bestCount){
+
+            bestCount = count;
+            best = delimiter;
+        }
+
+    });
+
+
+    return best;
+}
+
+
+function parseCSV(text){
+
+    text =
+        String(text)
+        .replace(/^\uFEFF/,"");
+
+
+    const delimiter =
+        detectDelimiter(text);
+
+
+    const rows = [];
+
+    let row = [];
+
+    let field = "";
+
+    let insideQuotes = false;
+
+
+    for(let i=0;i<text.length;i++){
+
+        const char =
+            text[i];
+
+        const next =
+            text[i+1];
+
+
+        if(char === '"'){
+
+            if(
+                insideQuotes &&
+                next === '"'
+            ){
+
+                field += '"';
+
+                i++;
+
+            }else{
+
+                insideQuotes =
+                    !insideQuotes;
+
+            }
+
+            continue;
+        }
+
+
+        if(
+            char === delimiter &&
+            !insideQuotes
+        ){
+
+            row.push(field);
+
+            field = "";
+
+            continue;
+        }
+
+
+        if(
+            (char === "\n" || char === "\r") &&
+            !insideQuotes
+        ){
+
+            if(char === "\r" && next === "\n"){
+                i++;
+            }
+
+            row.push(field);
+
+            field = "";
+
+            if(
+                row.some(
+                    value =>
+                    String(value).trim() !== ""
+                )
+            ){
+
+                rows.push(row);
+            }
+
+            row = [];
+
+            continue;
+        }
+
+
+        field += char;
+    }
+
+
+    if(field !== "" || row.length){
+
+        row.push(field);
+
+        if(
+            row.some(
+                value =>
+                String(value).trim() !== ""
+            )
+        ){
+
+            rows.push(row);
+        }
+    }
+
+
+    return rows;
+}
+
+
+/* =========================================================
+   NORMALIZE HEADER
+========================================================= */
+
+function normalizeHeader(value){
+
+    return normalizeText(value)
+        .toLowerCase()
+        .replace(/\s+/g," ")
+        .replace(/[._-]/g,"");
+}
+
+
+/* =========================================================
+   IMPORT CSV
+========================================================= */
+
+document
+.getElementById("importFile")
+.addEventListener("change",function(e){
+
+    const file =
+        e.target.files[0];
+
+    if(!file){
+        return;
+    }
+
+
+    if(
+        !file.name
+        .toLowerCase()
+        .endsWith(".csv")
+    ){
+
+        alert(
+            "File harus berformat CSV."
+        );
+
+        this.value = "";
+
+        return;
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload = function(){
+
+        try{
+
+            const text =
+                reader.result;
+
+
+            const rows =
+                parseCSV(text);
+
+
+            if(rows.length < 2){
+
+                alert(
+                    "File CSV tidak memiliki data."
+                );
+
+                return;
+            }
+
+
+            const headers =
+                rows[0].map(
+                    normalizeHeader
+                );
+
+
+            const findHeader =
+                aliases => {
+
+                    return headers.findIndex(
+                        header =>
+                            aliases.includes(header)
+                    );
+                };
+
+
+            const noIndex =
+                findHeader([
+                    "no",
+                    "nomor",
+                    "nomorurut"
+                ]);
+
+
+            const namaIndex =
+                findHeader([
+                    "nama",
+                    "namasiswa",
+                    "namalengkap"
+                ]);
+
+
+            const nisnIndex =
+                findHeader([
+                    "nisn"
+                ]);
+
+
+            const kelasIndex =
+                findHeader([
+                    "kelas",
+                    "rombel"
+                ]);
+
+
+            if(
+                namaIndex === -1 ||
+                nisnIndex === -1 ||
+                kelasIndex === -1
+            ){
+
+                alert(
+                    "Kolom CSV tidak sesuai.\n\n" +
+                    "Pastikan tersedia kolom:\n" +
+                    "No, Nama, NISN, Kelas"
+                );
+
+                return;
+            }
+
+
+            let master =
+                getJSON(KEY_MASTER,[]);
+
+
+            let imported = 0;
+            let updated = 0;
+            let skipped = 0;
+
+            const errors = [];
+
+
+            for(
+                let i=1;
+                i<rows.length;
+                i++
+            ){
+
+                const row =
+                    rows[i];
+
+
+                const excelRow =
+                    i + 1;
+
+
+                const nama =
+                    normalizeText(
+                        row[namaIndex]
+                    ).toUpperCase();
+
+
+                const nisn =
+                    normalizeText(
+                        row[nisnIndex]
+                    );
+
+
+                const kelas =
+                    normalizeText(
+                        row[kelasIndex]
+                    ).toUpperCase();
+
+
+                if(
+                    !nama &&
+                    !nisn &&
+                    !kelas
+                ){
+                    continue;
+                }
+
+
+                if(!nama){
+
+                    skipped++;
+
+                    errors.push(
+                        "Baris " +
+                        excelRow +
+                        ": Nama kosong."
+                    );
+
+                    continue;
+                }
+
+
+                if(!nisn){
+
+                    skipped++;
+
+                    errors.push(
+                        "Baris " +
+                        excelRow +
+                        ": NISN kosong."
+                    );
+
+                    continue;
+                }
+
+
+                if(!kelas){
+
+                    skipped++;
+
+                    errors.push(
+                        "Baris " +
+                        excelRow +
+                        ": Kelas kosong."
+                    );
+
+                    continue;
+                }
+
+
+                if(!/^\d+$/.test(nisn)){
+
+                    skipped++;
+
+                    errors.push(
+                        "Baris " +
+                        excelRow +
+                        ": NISN harus berupa angka."
+                    );
+
+                    continue;
+                }
+
+
+                const existingIndex =
+                    master.findIndex(
+                        item =>
+                            String(item.nisn) ===
+                            String(nisn)
+                    );
+
+
+                if(existingIndex !== -1){
+
+                    master[existingIndex] = {
+
+                        ...master[existingIndex],
+
+                        nama:nama,
+
+                        nisn:nisn,
+
+                        kelas:kelas
+
+                    };
+
+                    updated++;
+
+                }else{
+
+                    master.push({
+
+                        id:
+                            "S-" +
+                            Date.now() +
+                            "-" +
+                            i +
+                            "-" +
+                            Math.random()
+                                .toString(36)
+                                .substring(2,7),
+
+                        nama:nama,
+
+                        nisn:nisn,
+
+                        kelas:kelas
+
+                    });
+
+                    imported++;
+                }
+
+            }
+
+
+            saveJSON(
+                KEY_MASTER,
+                master
+            );
+
+
+            renderMasterTable();
+
+            updateDashboard();
+
+
+            const result =
+                document.getElementById(
+                    "importResult"
+                );
+
+
+            result.style.display =
+                "block";
+
+
+            let message =
+                "<strong>Import selesai.</strong>" +
+                " Data baru: " +
+                imported +
+                " | Diperbarui: " +
+                updated +
+                " | Dilewati: " +
+                skipped;
+
+
+            if(errors.length){
+
+                message +=
+                    "<br><br>" +
+                    "<b>Detail data yang dilewati:</b><br>" +
+                    errors
+                        .slice(0,20)
+                        .map(
+                            escapeHTML
+                        )
+                        .join("<br>");
+
+
+                if(errors.length > 20){
+
+                    message +=
+                        "<br>... dan " +
+                        (errors.length - 20) +
+                        " baris lainnya.";
+
+                }
+
+            }
+
+
+            result.innerHTML =
+                message;
+
+
+            showToast(
+                "Import data siswa selesai."
+            );
+
+
+        }catch(error){
+
+            console.error(error);
+
+            alert(
+                "Terjadi kesalahan saat membaca file CSV."
+            );
+
+        }
+
+    };
+
+
+    reader.readAsText(
+        file,
+        "UTF-8"
+    );
+
+
+    this.value = "";
+
+});
+
+
+/* =========================================================
+   MASTER TABLE
+========================================================= */
+
+function renderMasterTable(){
+
+    const tbody =
+        document.getElementById(
+            "masterTableBody"
+        );
+
+
+    const search =
+        document.getElementById(
+            "masterSearch"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    let master =
+        getJSON(KEY_MASTER,[]);
+
+
+    const filtered =
+        master.filter(item=>{
+
+            const text =
+                (
+                    item.nama +
+                    " " +
+                    item.nisn +
+                    " " +
+                    item.kelas
+                )
+                .toLowerCase();
+
+            return text.includes(search);
+
+        });
+
+
+    if(!filtered.length){
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5">
+                    <div class="empty">
+                        Belum ada data siswa.
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    tbody.innerHTML =
+        filtered
+        .map((item,index)=>{
+
+            return `
+
+                <tr>
+
+                    <td>
+                        ${index + 1}
+                    </td>
+
+                    <td>
+                        <strong>
+                            ${escapeHTML(item.nama)}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.nisn)}
+                    </td>
+
+                    <td>
+
+                        <span class="class-badge">
+                            ${escapeHTML(item.kelas)}
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn btn-danger"
+                            onclick="deleteMasterStudent('${item.id}')"
+                        >
+                            Hapus
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+document
+.getElementById("masterSearch")
+.addEventListener("input",renderMasterTable);
+
+
+/* =========================================================
+   DELETE MASTER SISWA
+========================================================= */
+
+function deleteMasterStudent(id){
+
+    let master =
+        getJSON(KEY_MASTER,[]);
+
+
+    const student =
+        master.find(
+            item =>
+                item.id === id
+        );
+
+
+    if(!student){
+        return;
+    }
+
+
+    const confirmed =
+        confirm(
+            "Hapus data siswa berikut?\n\n" +
+            "Nama : " +
+            student.nama +
+            "\nNISN : " +
+            student.nisn +
+            "\nKelas : " +
+            student.kelas +
+            "\n\nData master siswa akan dihapus."
+        );
+
+
+    if(!confirmed){
+        return;
+    }
+
+
+    master =
+        master.filter(
+            item =>
+                item.id !== id
+        );
+
+
+    saveJSON(
+        KEY_MASTER,
+        master
+    );
+
+
+    renderMasterTable();
+
+    updateDashboard();
+
+
+    showToast(
+        "Data siswa berhasil dihapus."
+    );
+
+}
+
+
+/* =========================================================
+   TEMPLATE CSV
+========================================================= */
+
+function downloadFile(
+    filename,
+    content,
+    type="text/csv;charset=utf-8;"
+){
+
+    const blob =
+        new Blob(
+            [content],
+            {type:type}
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const link =
+        document.createElement("a");
+
+
+    link.href = url;
+
+    link.download =
+        filename;
+
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+
+    URL.revokeObjectURL(url);
+}
+
+
+function csvEscape(value){
+
+    return '"' +
+        String(value ?? "")
+        .replace(/"/g,'""') +
+        '"';
+}
+
+
+document
+.getElementById("downloadTemplate")
+.addEventListener("click",function(){
+
+    /*
+       Menggunakan titik koma (;)
+       agar lebih mudah dibuka sebagai
+       kolom oleh Excel dengan regional Indonesia.
+    */
+
+    const rows = [
+
+        [
+            "No",
+            "Nama",
+            "NISN",
+            "Kelas"
+        ],
+
+        [
+            "1",
+            "CONTOH SISWA",
+            "1234567890",
+            "VII A"
+        ],
+
+        [
+            "2",
+            "CONTOH SISWA 2",
+            "1234567891",
+            "VII B"
+        ]
+
+    ];
+
+
+    const csv =
+        "\uFEFF" +
+        rows
+        .map(row =>
+            row
+            .map(csvEscape)
+            .join(";")
+        )
+        .join("\r\n");
+
+
+    downloadFile(
+        "template_master_data_siswa.csv",
+        csv
+    );
+
+
+    showToast(
+        "Template berhasil diunduh."
+    );
+
+});
+
+
+/* =========================================================
+   RESET MASTER DATA SISWA
+========================================================= */
+
+function resetMasterData(){
+
+    const master =
+        getJSON(KEY_MASTER,[]);
+
+    if(!master.length){
+
+        alert(
+            "Master Data Siswa sudah kosong."
+        );
+
+        return;
+    }
+
+    const firstConfirm =
+        confirm(
+            "PERINGATAN!\n\n" +
+            "Anda akan menghapus SELURUH " +
+            master.length +
+            " data siswa dari Master Data Siswa.\n\n" +
+            "Yang dihapus hanya Master Data Siswa.\n" +
+            "Data pengisian formulir dan data keterlambatan TIDAK akan dihapus.\n\n" +
+            "Lanjutkan?"
+        );
+
+    if(!firstConfirm){
+        return;
+    }
+
+    const confirmationText =
+        prompt(
+            "Konfirmasi terakhir. Ketik RESET untuk menghapus seluruh Master Data Siswa:"
+        );
+
+    if(confirmationText === null){
+        return;
+    }
+
+    if(confirmationText.trim().toUpperCase() !== "RESET"){
+
+        alert(
+            "Reset dibatalkan. Anda harus mengetik RESET dengan benar."
+        );
+
+        return;
+    }
+
+    localStorage.removeItem(KEY_MASTER);
+
+    const result =
+        document.getElementById("importResult");
+
+    result.style.display = "block";
+    result.innerHTML =
+        "<strong>Master Data Siswa berhasil direset.</strong> " +
+        "Seluruh data master telah dihapus. Data formulir dan keterlambatan tetap aman.";
+
+    renderMasterTable();
+    updateDashboard();
+
+    showToast(
+        "Seluruh Master Data Siswa berhasil direset."
+    );
+}
+
+document
+.getElementById("resetMaster")
+.addEventListener("click",resetMasterData);
+
+
+/* =========================================================
+   EXPORT MASTER
+========================================================= */
+
+document
+.getElementById("exportMaster")
+.addEventListener("click",function(){
+
+    const master =
+        getJSON(KEY_MASTER,[]);
+
+
+    if(!master.length){
+
+        alert(
+            "Belum ada data siswa untuk diekspor."
+        );
+
+        return;
+    }
+
+
+    const rows = [
+
+        [
+            "No",
+            "Nama",
+            "NISN",
+            "Kelas"
+        ]
+
+    ];
+
+
+    master.forEach((item,index)=>{
+
+        rows.push([
+
+            index + 1,
+
+            item.nama,
+
+            item.nisn,
+
+            item.kelas
+
+        ]);
+
+    });
+
+
+    const csv =
+        "\uFEFF" +
+        rows
+        .map(row =>
+            row
+            .map(csvEscape)
+            .join(";")
+        )
+        .join("\r\n");
+
+
+    downloadFile(
+        "master_data_siswa.csv",
+        csv
+    );
+
+
+    showToast(
+        "Data siswa berhasil diekspor."
+    );
+
+});
+
+
+/* =========================================================
+   DATA PESERTA DIDIK
+========================================================= */
+
+function renderStudents(){
+
+    const tbody =
+        document.getElementById(
+            "studentTableBody"
+        );
+
+
+    const search =
+        document.getElementById(
+            "studentSearch"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const students =
+        getJSON(KEY_STUDENTS,[]);
+
+
+    const filtered =
+        students.filter(item=>{
+
+            const text =
+                (
+                    item.nama || "" +
+                    " " +
+                    item.nisn || "" +
+                    " " +
+                    item.kelas || ""
+                ).toLowerCase();
+
+            return text.includes(search);
+
+        });
+
+
+    if(!filtered.length){
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7">
+                    <div class="empty">
+                        Belum ada peserta didik yang mengisi formulir.
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    tbody.innerHTML =
+        filtered
+        .map((item,index)=>{
+
+            return `
+
+                <tr>
+
+                    <td>${index+1}</td>
+
+                    <td>
+                        <strong>
+                            ${escapeHTML(item.nama)}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.nisn || "-")}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.kelas || "-")}
+                    </td>
+
+                    <td>
+                        <span class="status-badge">
+                            ${escapeHTML(item.status || "Lengkap")}
+                        </span>
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.tanggal || "-")}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn btn-secondary"
+                            onclick="showStudentDetail(${index})"
+                        >
+                            Detail
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+document
+.getElementById("studentSearch")
+.addEventListener("input",renderStudents);
+
+
+/* =========================================================
+   DETAIL STUDENT
+========================================================= */
+
+function showStudentDetail(index){
+
+    const students = getJSON(KEY_STUDENTS,[]);
+    const item = students[index];
+
+    if(!item) return;
+
+    const modal = document.getElementById("detailModal");
+
+    document.getElementById("modalTitle").textContent =
+        "Detail Peserta Didik";
+
+    const skipKeys = new Set(["id","status"]);
+
+    let html = "";
+
+    Object.entries(item).forEach(([key,value])=>{
+
+        if(skipKeys.has(key)) return;
+
+        const label = FIELD_LABELS[key] || key;
+
+        if(key === "tanggal"){
+            html += detailRow(label,formatDateTime(value));
+            return;
+        }
+
+        if(["fileKKName","fileAktaName","fileIjazahName"].includes(key)){
+            return;
+        }
+
+        if(["fileKKSize","fileAktaSize","fileIjazahSize"].includes(key)){
+            return;
+        }
+
+        html += detailRow(label,value);
+    });
+
+    html += `
+        <div style="margin-top:22px;padding-top:18px;border-top:1px solid #E2E8F0;">
+            <h3 style="margin-bottom:12px;">Dokumen Peserta Didik</h3>
+            <div id="documentActions_${escapeHTML(item.id)}" style="display:grid;gap:10px;">
+                ${documentButtonHTML(item.id,"kk","Kartu Keluarga",item.fileKKName,item.fileKKSize)}
+                ${documentButtonHTML(item.id,"akta","Akta Kelahiran",item.fileAktaName,item.fileAktaSize)}
+                ${documentButtonHTML(item.id,"ijazah","Ijazah SMP",item.fileIjazahName,item.fileIjazahSize)}
+            </div>
+        </div>
+    `;
+
+    document.getElementById("modalBody").innerHTML = html;
+    modal.classList.add("show");
+
+    // Cek keberadaan file di IndexedDB setelah modal tampil.
+    checkDocumentAvailability(item.id,"kk");
+    checkDocumentAvailability(item.id,"akta");
+    checkDocumentAvailability(item.id,"ijazah");
+}
+
+function detailRow(label,value){
+    return `
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:11px 0;border-bottom:1px solid #F1F5F9;">
+            <strong style="min-width:190px;">${escapeHTML(label)}</strong>
+            <span style="text-align:right;white-space:pre-wrap;word-break:break-word;">${escapeHTML(value || "-")}</span>
+        </div>
+    `;
+}
+
+function formatDateTime(value){
+    if(!value) return "-";
+    const d = new Date(value);
+    if(Number.isNaN(d.getTime())) return value;
+    return d.toLocaleString("id-ID",{
+        dateStyle:"long",
+        timeStyle:"short"
+    });
+}
+
+const FIELD_LABELS = {
+    nama:"Nama Lengkap",
+    nisn:"NISN",
+    kelas:"Kelas",
+    nik:"NIK",
+    noKK:"Nomor KK",
+    jenisKelamin:"Jenis Kelamin",
+    tempatLahir:"Tempat Lahir",
+    tanggalLahir:"Tanggal Lahir",
+    agama:"Agama/Kepercayaan",
+    kewarganegaraan:"Kewarganegaraan",
+    noAkta:"No. Registrasi Akta Kelahiran",
+    asalSekolah:"Asal Sekolah",
+    alamat:"Alamat Jalan",
+    rtRw:"RT/RW",
+    desa:"Desa/Kelurahan",
+    kecamatan:"Kecamatan",
+    kabupaten:"Kabupaten/Kota",
+    provinsi:"Provinsi",
+    kodePos:"Kode Pos",
+    tempatTinggal:"Tempat Tinggal",
+    transportasi:"Moda Transportasi",
+    hpSiswa:"HP Siswa",
+    emailSiswa:"Email Siswa",
+    hpOrangTua:"HP Orang Tua",
+    anakKe:"Anak Ke",
+    jumlahSaudara:"Jumlah Saudara Kandung",
+    namaAyah:"Nama Ayah",
+    nikAyah:"NIK Ayah",
+    tahunAyah:"Tahun Lahir Ayah",
+    pendidikanAyah:"Pendidikan Terakhir Ayah",
+    pekerjaanAyah:"Pekerjaan Ayah",
+    penghasilanAyah:"Penghasilan Bulanan Ayah",
+    hpAyah:"Nomor HP Ayah",
+    namaIbu:"Nama Ibu",
+    nikIbu:"NIK Ibu",
+    tahunIbu:"Tahun Lahir Ibu",
+    pendidikanIbu:"Pendidikan Terakhir Ibu",
+    pekerjaanIbu:"Pekerjaan Ibu",
+    penghasilanIbu:"Penghasilan Bulanan Ibu",
+    hpIbu:"Nomor HP Ibu",
+    tinggiBadan:"Tinggi Badan",
+    beratBadan:"Berat Badan",
+    jarakRumah:"Jarak Rumah ke Sekolah",
+    waktuTempuh:"Waktu Tempuh",
+    status:"Status",
+    tanggal:"Tanggal Pengisian"
+};
+
+function documentButtonHTML(submissionId,type,label,fileName,size){
+    const safeId = escapeHTML(submissionId);
+    const sizeText = size ? formatBytes(size) : "";
+    const nameText = fileName || "File belum tersedia";
+    return `
+        <div id="doc_${safeId}_${type}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid #E2E8F0;border-radius:12px;background:#F8FAFC;">
+            <div style="min-width:0;">
+                <strong>${escapeHTML(label)}</strong>
+                <div class="doc-status" style="font-size:12px;color:#64748B;margin-top:4px;word-break:break-word;">
+                    ${escapeHTML(nameText)}${sizeText ? " • " + escapeHTML(sizeText) : ""}
+                </div>
+            </div>
+            <div class="doc-buttons" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+                <button type="button" class="btn btn-secondary" data-doc-view="${safeId}" data-doc-type="${type}">Lihat</button>
+                <button type="button" class="btn btn-secondary" data-doc-download="${safeId}" data-doc-type="${type}">Download</button>
+            </div>
+        </div>
+    `;
+}
+
+function formatBytes(bytes){
+    const n = Number(bytes) || 0;
+    if(n < 1024) return n + " B";
+    if(n < 1024*1024) return (n/1024).toFixed(1) + " KB";
+    return (n/(1024*1024)).toFixed(2) + " MB";
+}
+
+function openFileDB(){
+    return new Promise((resolve,reject)=>{
+        const request = indexedDB.open(FILE_DB_NAME,1);
+        request.onupgradeneeded = function(event){
+            const db = event.target.result;
+            if(!db.objectStoreNames.contains(FILE_STORE_NAME)){
+                db.createObjectStore(FILE_STORE_NAME,{keyPath:"id"});
+            }
+        };
+        request.onsuccess = ()=>resolve(request.result);
+        request.onerror = ()=>reject(request.error || new Error("Gagal membuka penyimpanan file."));
+    });
+}
+
+function getDocumentFile(submissionId,type){
+    return openFileDB().then(db=>new Promise((resolve,reject)=>{
+        const tx = db.transaction(FILE_STORE_NAME,"readonly");
+        const request = tx.objectStore(FILE_STORE_NAME).get(submissionId + "_" + type);
+        request.onsuccess = ()=>{
+            const result = request.result || null;
+            db.close();
+            resolve(result);
+        };
+        request.onerror = ()=>{
+            db.close();
+            reject(request.error || new Error("Gagal membaca file."));
+        };
+    }));
+}
+
+async function checkDocumentAvailability(submissionId,type){
+    const box = document.getElementById(`doc_${submissionId}_${type}`);
+    if(!box) return;
+    try{
+        const file = await getDocumentFile(submissionId,type);
+        const status = box.querySelector(".doc-status");
+        const buttons = box.querySelectorAll("button");
+        if(!file){
+            if(status) status.textContent += " • File tidak ditemukan di perangkat ini";
+            buttons.forEach(btn=>btn.disabled=true);
+        }
+    }catch(error){
+        console.error(error);
+    }
+}
+
+async function handleDocumentAction(submissionId,type,download=false){
+    try{
+        const file = await getDocumentFile(submissionId,type);
+        if(!file || !file.blob){
+            alert("File PDF tidak ditemukan pada perangkat ini. Jika data diisi dari perangkat lain, file memang belum tersimpan di perangkat admin karena versi HTML ini masih menggunakan penyimpanan browser lokal.");
+            return;
+        }
+
+        const url = URL.createObjectURL(file.blob);
+
+        if(download){
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = file.name || (type + ".pdf");
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(()=>URL.revokeObjectURL(url),1000);
+        }else{
+            window.open(url,"_blank","noopener,noreferrer");
+            setTimeout(()=>URL.revokeObjectURL(url),60000);
+        }
+    }catch(error){
+        console.error(error);
+        alert("Gagal membuka dokumen: " + (error.message || error));
+    }
+}
+
+document.addEventListener("click",function(event){
+    const view = event.target.closest("[data-doc-view]");
+    const download = event.target.closest("[data-doc-download]");
+
+    if(view){
+        handleDocumentAction(view.dataset.docView,view.dataset.docType,false);
+    }
+
+    if(download){
+        handleDocumentAction(download.dataset.docDownload,download.dataset.docType,true);
+    }
+});
+
+
+/* =========================================================
+   EXPORT STUDENTS
+========================================================= */
+
+document
+.getElementById("exportStudents")
+.addEventListener("click",function(){
+
+    const students = getJSON(KEY_STUDENTS,[]);
+
+    if(!students.length){
+        alert("Belum ada data peserta didik.");
+        return;
+    }
+
+    // Urutan kolom mengikuti struktur formulir. Semua data non-file ikut diekspor.
+    const columns = [
+        ["No","no"],
+        ["Nama Lengkap","nama"],
+        ["NISN","nisn"],
+        ["Kelas","kelas"],
+        ["NIK","nik"],
+        ["Nomor KK","noKK"],
+        ["Jenis Kelamin","jenisKelamin"],
+        ["Tempat Lahir","tempatLahir"],
+        ["Tanggal Lahir","tanggalLahir"],
+        ["Agama/Kepercayaan","agama"],
+        ["Kewarganegaraan","kewarganegaraan"],
+        ["No. Registrasi Akta Kelahiran","noAkta"],
+        ["Asal Sekolah","asalSekolah"],
+        ["Alamat Jalan","alamat"],
+        ["RT/RW","rtRw"],
+        ["Desa/Kelurahan","desa"],
+        ["Kecamatan","kecamatan"],
+        ["Kabupaten/Kota","kabupaten"],
+        ["Provinsi","provinsi"],
+        ["Kode Pos","kodePos"],
+        ["Tempat Tinggal","tempatTinggal"],
+        ["Moda Transportasi","transportasi"],
+        ["HP Siswa","hpSiswa"],
+        ["Email Siswa","emailSiswa"],
+        ["HP Orang Tua","hpOrangTua"],
+        ["Anak Ke","anakKe"],
+        ["Jumlah Saudara Kandung","jumlahSaudara"],
+        ["Nama Ayah","namaAyah"],
+        ["NIK Ayah","nikAyah"],
+        ["Tahun Lahir Ayah","tahunAyah"],
+        ["Pendidikan Terakhir Ayah","pendidikanAyah"],
+        ["Pekerjaan Ayah","pekerjaanAyah"],
+        ["Penghasilan Bulanan Ayah","penghasilanAyah"],
+        ["Nomor HP Ayah","hpAyah"],
+        ["Nama Ibu","namaIbu"],
+        ["NIK Ibu","nikIbu"],
+        ["Tahun Lahir Ibu","tahunIbu"],
+        ["Pendidikan Terakhir Ibu","pendidikanIbu"],
+        ["Pekerjaan Ibu","pekerjaanIbu"],
+        ["Penghasilan Bulanan Ibu","penghasilanIbu"],
+        ["Nomor HP Ibu","hpIbu"],
+        ["Tinggi Badan","tinggiBadan"],
+        ["Berat Badan","beratBadan"],
+        ["Jarak Rumah ke Sekolah","jarakRumah"],
+        ["Waktu Tempuh","waktuTempuh"],
+        ["Status","status"],
+        ["Tanggal Pengisian","tanggal"],
+        ["File Kartu Keluarga","fileKKName"],
+        ["Ukuran File Kartu Keluarga","fileKKSize"],
+        ["File Akta Kelahiran","fileAktaName"],
+        ["Ukuran File Akta Kelahiran","fileAktaSize"],
+        ["File Ijazah SMP","fileIjazahName"],
+        ["Ukuran File Ijazah SMP","fileIjazahSize"]
+    ];
+
+    const rows = [columns.map(col=>col[0])];
+
+    students.forEach((item,index)=>{
+        rows.push(columns.map(([label,key])=>{
+            if(key === "no") return index + 1;
+            if(key === "fileKKSize" || key === "fileAktaSize" || key === "fileIjazahSize"){
+                return formatBytes(item[key] || 0);
+            }
+            if(key === "tanggal") return formatDateTime(item[key] || "");
+            return item[key] ?? "";
+        }));
+    });
+
+    const csv = "\uFEFF" + rows.map(row=>row.map(csvEscape).join(";")).join("\r\n");
+
+    downloadFile("data_peserta_didik_lengkap.csv",csv);
+
+    alert(
+        "Export berhasil.\n\n" +
+        students.length + " data peserta didik telah diekspor.\n" +
+        "Semua field formulir dan nama dokumen PDF sudah dimasukkan ke CSV.\n\n" +
+        "Catatan: isi PDF tidak dapat dimasukkan ke dalam Excel/CSV. PDF tetap dibuka melalui tombol Lihat/Download pada Detail."
+    );
+});
+
+
+/* =========================================================
+   PRINT STUDENTS
+========================================================= */
+
+document
+.getElementById("printStudents")
+.addEventListener("click",function(){
+
+    const students =
+        getJSON(KEY_STUDENTS,[]);
+
+
+    const win =
+        window.open(
+            "",
+            "_blank"
+        );
+
+
+    win.document.write(`
+
+        <html>
+
+        <head>
+
+            <title>
+                Data Peserta Didik - SIPENDIK
+            </title>
+
+            <style>
+
+                body{
+                    font-family:Arial,sans-serif;
+                    padding:30px;
+                }
+
+                h1{
+                    font-size:20px;
+                }
+
+                table{
+                    width:100%;
+                    border-collapse:collapse;
+                    margin-top:20px;
+                }
+
+                th,td{
+                    border:1px solid #ccc;
+                    padding:8px;
+                    font-size:12px;
+                    text-align:left;
+                }
+
+                th{
+                    background:#eee;
+                }
+
+            </style>
+
+        </head>
+
+        <body>
+
+            <h1>
+                DATA PESERTA DIDIK
+            </h1>
+
+            <p>
+                SIPENDIK
+            </p>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>NISN</th>
+                        <th>Kelas</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    ${
+                        students.map(
+                            (item,index)=>`
+
+                                <tr>
+
+                                    <td>
+                                        ${index+1}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHTML(item.nama)}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHTML(item.nisn || "-")}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHTML(item.kelas || "-")}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHTML(item.status || "Lengkap")}
+                                    </td>
+
+                                </tr>
+
+                            `
+                        ).join("")
+                    }
+
+                </tbody>
+
+            </table>
+
+        </body>
+
+        </html>
+
+    `);
+
+
+    win.document.close();
+
+    win.focus();
+
+    setTimeout(()=>{
+        win.print();
+    },500);
+
+});
+
+
+/* =========================================================
+   DATA KETERLAMBATAN
+========================================================= */
+
+function renderLateness(){
+
+    const tbody =
+        document.getElementById(
+            "lateTableBody"
+        );
+
+
+    const search =
+        document.getElementById(
+            "lateSearch"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const dateFilter =
+        document.getElementById(
+            "lateDateFilter"
+        ).value;
+
+
+    const reasonFilter =
+        document.getElementById(
+            "lateReasonFilter"
+        ).value;
+
+
+    const data =
+        getJSON(KEY_LATENESS,[]);
+
+
+    const filtered =
+        data.filter(item=>{
+
+            const text =
+                (
+                    item.nama || "" +
+                    " " +
+                    item.nisn || "" +
+                    " " +
+                    item.kelas || ""
+                ).toLowerCase();
+
+
+            const matchSearch =
+                text.includes(search);
+
+
+            const matchDate =
+                !dateFilter ||
+                item.tanggal === dateFilter;
+
+
+            const matchReason =
+                !reasonFilter ||
+                item.alasan === reasonFilter;
+
+
+            return (
+                matchSearch &&
+                matchDate &&
+                matchReason
+            );
+
+        });
+
+
+    updateLateStats(data);
+
+
+    if(!filtered.length){
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="9">
+
+                    <div class="empty">
+                        Belum ada data keterlambatan.
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+    }
+
+
+    tbody.innerHTML =
+        filtered
+        .map((item,index)=>{
+
+            return `
+
+                <tr>
+
+                    <td>
+                        ${index+1}
+                    </td>
+
+                    <td>
+                        <strong>
+                            ${escapeHTML(item.nama || "-")}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.nisn || "-")}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.kelas || "-")}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.tanggal || "-")}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.jamDatang || "-")}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.durasi || "0 menit")}
+                    </td>
+
+                    <td>
+                        <span class="status-badge">
+                            ${escapeHTML(item.status || "-")}
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn btn-danger"
+                            onclick="deleteLateness('${item.id}')"
+                        >
+                            Hapus
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+function updateLateStats(data){
+
+    const now =
+        new Date();
+
+
+    const today =
+        now.toISOString()
+        .slice(0,10);
+
+
+    const month =
+        today.slice(0,7);
+
+
+    const todayCount =
+        data.filter(
+            item =>
+                item.tanggal === today
+        ).length;
+
+
+    const monthCount =
+        data.filter(
+            item =>
+                String(item.tanggal || "")
+                .startsWith(month)
+        ).length;
+
+
+    let totalMinutes = 0;
+
+
+    data.forEach(item=>{
+
+        const value =
+            parseInt(
+                String(
+                    item.durasi || "0"
+                ).replace(/\D/g,"")
+            );
+
+
+        if(!isNaN(value)){
+            totalMinutes += value;
+        }
+
+    });
+
+
+    const average =
+        data.length
+        ? Math.round(
+            totalMinutes / data.length
+        )
+        : 0;
+
+
+    document.getElementById("lateTotal")
+        .textContent = data.length;
+
+    document.getElementById("lateToday")
+        .textContent = todayCount;
+
+    document.getElementById("lateMonth")
+        .textContent = monthCount;
+
+    document.getElementById("lateAverage")
+        .textContent =
+            average + " mnt";
+
+}
+
+
+document
+.getElementById("lateSearch")
+.addEventListener(
+    "input",
+    renderLateness
+);
+
+
+document
+.getElementById("lateDateFilter")
+.addEventListener(
+    "change",
+    renderLateness
+);
+
+
+document
+.getElementById("lateReasonFilter")
+.addEventListener(
+    "change",
+    renderLateness
+);
+
+
+document
+.getElementById("resetLateFilter")
+.addEventListener("click",function(){
+
+    document.getElementById(
+        "lateSearch"
+    ).value = "";
+
+    document.getElementById(
+        "lateDateFilter"
+    ).value = "";
+
+    document.getElementById(
+        "lateReasonFilter"
+    ).value = "";
+
+    renderLateness();
+
+});
+
+
+/* =========================================================
+   DELETE KETERLAMBATAN
+========================================================= */
+
+function deleteLateness(id){
+
+    let data =
+        getJSON(KEY_LATENESS,[]);
+
+
+    const item =
+        data.find(
+            row =>
+                row.id === id
+        );
+
+
+    if(!item){
+        return;
+    }
+
+
+    if(
+        !confirm(
+            "Hapus data keterlambatan atas nama " +
+            item.nama +
+            "?"
+        )
+    ){
+        return;
+    }
+
+
+    data =
+        data.filter(
+            row =>
+                row.id !== id
+        );
+
+
+    saveJSON(
+        KEY_LATENESS,
+        data
+    );
+
+
+    renderLateness();
+
+
+    showToast(
+        "Data keterlambatan berhasil dihapus."
+    );
+
+}
+
+
+/* =========================================================
+   EXPORT KETERLAMBATAN
+========================================================= */
+
+document
+.getElementById("exportLateness")
+.addEventListener("click",function(){
+
+    const data =
+        getJSON(KEY_LATENESS,[]);
+
+
+    if(!data.length){
+
+        alert(
+            "Belum ada data keterlambatan."
+        );
+
+        return;
+    }
+
+
+    const rows = [
+
+        [
+            "No",
+            "Nama",
+            "NISN",
+            "Kelas",
+            "Tanggal",
+            "Jam Masuk",
+            "Jam Datang",
+            "Durasi",
+            "Alasan",
+            "Keterangan"
+        ]
+
+    ];
+
+
+    data.forEach((item,index)=>{
+
+        rows.push([
+
+            index + 1,
+
+            item.nama || "",
+
+            item.nisn || "",
+
+            item.kelas || "",
+
+            item.tanggal || "",
+
+            item.jamMasuk || "06:30",
+
+            item.jamDatang || "",
+
+            item.durasi || "",
+
+            item.alasan || "",
+
+            item.keterangan || ""
+
+        ]);
+
+    });
+
+
+    const csv =
+        "\uFEFF" +
+        rows
+        .map(row =>
+            row
+            .map(csvEscape)
+            .join(";")
+        )
+        .join("\r\n");
+
+
+    downloadFile(
+        "data_keterlambatan.csv",
+        csv
+    );
+
+});
+
+
+/* =========================================================
+   MODAL CLOSE
+========================================================= */
+
+document
+.getElementById("closeModal")
+.addEventListener("click",function(){
+
+    document
+        .getElementById("detailModal")
+        .classList.remove("show");
+
+});
+
+
+document
+.getElementById("detailModal")
+.addEventListener("click",function(e){
+
+    if(
+        e.target === this
+    ){
+
+        this.classList.remove("show");
+
+    }
+
+});
+
+
+/* =========================================================
+   LOAD ALL
+========================================================= */
+
+function loadAll(){
+
+    updateDashboard();
+
+    renderMasterTable();
+
+    renderStudents();
+
+    renderLateness();
+
+}
+
+
+/* =========================================================
+   STORAGE EVENT
+   Agar perubahan dari tab lain ikut terdeteksi.
+========================================================= */
+
+window.addEventListener(
+    "storage",
+    function(e){
+
+        if(
+            [
+                KEY_MASTER,
+                KEY_STUDENTS,
+                KEY_LATENESS,
+                KEY_TARGET
+            ].includes(e.key)
+        ){
+
+            updateDashboard();
+
+            renderMasterTable();
+
+            renderStudents();
+
+            renderLateness();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+checkLogin();
+
+</script>
+
+</body>
+</html>
